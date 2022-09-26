@@ -1,11 +1,14 @@
+Testing saves you time
 
 ## My take on effective ML work at a early stage startup
 
-- Don't create API for ML, just copy&paste .
-- Test every line
+TLDL,
+
+- Don't create API for ML, just copy&paste.
+- Test every line.
 - If you aren't sure about the design, test first.
 - Document everything. Be clear, and avoid abbreviations.
-- Always keep your experiments reproducible (lineage, data, code, baseline)
+- Always keep your experiments reproducible (lineage, data, code, baseline).
 
 ### Copy & paste ML, don't abstract
 Abstracting ML code sacrifices expressiveness, increases coupling and aggravates maintenance. These might be ok for regular software. But things are different for ML. If you're in ML, I am sure you spend hours for a simple change in a library to try a new paper. I feel your pain 😄.
@@ -26,23 +29,23 @@ This brute approach solves all the issues I mentioned. Our research team can sol
 
 
 ### Test every line
-Testing is tedious but also a must, especially for code that goes into production. Therefore, yes, we C&P code and prefer less abstraction but we definetely
-unit test everline of the code and make sure every function works as intended, every layer inputs and outputs correctly with the right shape and values. For models
+Testing is tedious but also a must, especially for code that goes into production. Therefore, yes, we C&P code and prefer less abstraction, but we unit test every line of the code and ensure every function works as intended and every layer inputs and outputs correctly with the right shape and values. For models
 we also run training runs and try to overfit a small batch of instances.
 
-All these tests are not only important for deployment, they also make sure that your research is on track. You try new ideas and methods without worrying about the
-legacy code. I am sure, you also experienced that you tried a new paper and it didn't work but after a couple of weeks you realized that it was not the new method that was not working but a older bug that made it ineffective. This kind of extendsive testing alleviates it.
+All these tests are not only crucial for deployment, but they also make sure that your research is on track. You try new ideas and methods without worrying about the legacy code. I am sure you also experienced that you tried a recent paper that didn't work. After a couple of weeks, you realized that it was not the paper but an older bug in the code. "Test every line" mentality helps alleviate that.
 
-Testing for better design. Sometimes, I need to implement something but I don't know how. So one way I found useful (I am sure there is already a name for it) is writing the tests first. It helps you think like a user and really see how that code would be used and what needed is to make it right. For instance, 🐸 TTS's API was
-a garbagge initially since I did not really use my code but mostyle develop. After I start testing, it made me see that kind of user intraction and API are right for the purpose. (It is not perfect now but certainly way better.)
+Testing for better design. Sometimes, I need to implement something, but I don't know how. One way I found helpful (I am sure there is already a name for it) is writing the tests first (Maybe test-driven development?). It helps you think like a user and see how your code would interact with the user. For instance, [🐸 TTS's](https://github.com/coqui-ai/TTS) API was garbage initially since I did not use my code but mainly developed it. Increasing the level of testing made me see the important factors and adapt the API accordingly, which led to a nice bump in repo stars. (It is now not perfect but certainly way better.)
 
-Testing for bugs. A bug can be in the data, model or deployment side of the things. Data is important since any bug permeates along the whole pipeline. Model bugs are hard to figure, requires a lot of domain knowledge and sometime interactive debugging. Even if you test everything, I think you always find bugs. It is important to add cases to your tests that cover new bugs and try to replicate those for other models, tests and components. Deployment tests are probably easier but mostly less transparent. In the best scenario, you need to monitor your model, set alarms against certain unexpected metric changes. But it is not always possible especially in the early stages. In that case, at least you should have a set of inputs, outputs that check extreme conditions and you know what to expect. Then assert that those conditions are always met in your tests.
+(Rewrite here)
+Testing for bugs. A bug can mainly be in the data pipeline, model implementation, or deployment backend. Securing the data pipeline from bugs is vital since problems here permeate the whole ML cycle. Model bugs are hard to figure out. They might require domain knowledge and experience with the model architecture. Even if you test everything, I think you always find bugs in your models. It is essential not to ignore those bugs and immediately act upon them and create new test cases that cover them, not only for that model but for all the models that might have the same bug. Deployment tests are probably easier but less accessible since we don't interact with the deployment code as frequently as the other components. You must monitor your model and set alarms for specific metric changes in the best scenario. But it is not always possible, especially in the early stages, when you are about to get your MVP out. In that case, you should have a set of inputs and outputs that check extreme conditions and runtime measures.
 
-Testing for version updates. Many ML code is depends on different libraries. They get updated and things can change then break your code. It is of couse a good practise to anchor on specific versions but it doesn't save you in all cases. For instance, you use a specific version of a library that runs on python 3.6 but you need to migrate to python 3.10 and you need to upgrade the library for that. How we can make sure that the new version of that library does not break our code. Answer is easy. Testing.
+Testing versions. Most ML code depends on libraries. Those libs get updated. Things change without notice and break your code. It is an ideal practice to dock on specific versions, but it doesn't save you for all. For instance, you use a particular library that runs on python 3.6, but you need to migrate your code to python 3.10 and upgrade the library for that. So how do we ensure that the new version of the library does not break our code? The answer is easy. Testing.
 
-In our team, we create test classes that match all the functions of the model code. As I said above, we try to keep all the code in a single file that releates to a model that solves a particular problem. So we create a clone test file that match every line of that model file. Also, if we find a new bad in a model, we directly think about other models that might be effected and implement new tests not for that model only but all the other as well. For the code shared among models, we run the most intensive tests since anything broken there would damage the most. For model export and deployment we test extreme conditions and pass samples that we know what to expect as output. More advance monitoring is on its way too.
+Testing saves you time. Although testing seems time-consuming, I think it saves more time than it consumes in the long run. It gets more apparent when you start working on more complex ML systems. Fixing bugs, implementing new ideas and models, adding new data resources, etc., all get easier and save time.
 
-Testing is boring. We don't like it. But the world functions by the account of heros who test code :).
+In our team, we test every function and layer of model implementation. If we find a new bug in a model, we cover it directly in tests of that model and the other models. We run the most intensive tests for the code shared among models since anything busted there creates the biggest harm. For model export and deployment, we test, at the very least, extreme conditions and pass samples from which we know what to expect. And make use of software that helps us monitor important performance and runtime metrics.
+
+Testing is boring. But the world functions thanks to tested software :).
 
 
 ### Document, document, document...
@@ -62,4 +65,36 @@ Communicating with users. Users need docs too and probably writing for user is t
 With my team at 🐸Coqui, we use Github issues for all the documenation work. We post in separate issues for things that are part of a process and use the Wiki for common content. The good think about using issues is they are refereable and linkable from everywhere of our work; code, planing dashboard, releases, etc. I should also say, it is cheaper. For user docs of our open-source code, we do what all people do and use sphinx. But I'm also curious to try the [FastAI way](https://www.fast.ai/posts/2019-11-27-nbdev.html) where you do it all in the Notebooks.
 
 
-### Keep things easily producible
+### Keep things reproducible
+
+ML teams experiment with different models and ideas. Each experiment takes time and resource. It is important to make these experiments
+sharable and reproducible for effective collaboration on constant improvement.
+
+Reproducibility means, in our terms, being able to produce the exact same outputs everytime using the exact same inputs. It is only possible when the same **code** is run on the same **dataset** with the same experiments **environment**.
+
+Code means to be able to share the expriment code with all the changes that are done with the experiment. One way to achieve this is making sure you have no uncommited changes before running the experiment. Although it sounds reasonable, it is hard to do in practice. Therefore, I suggest logging uncommited changes with an experiment, so in the worse case you are aware of those and don't lose them in the flow. It helps to use a experiment tracker that does it automatically.
+
+Dataset means to be able to use the same dataset used in an experiment and loading them in the same order. For instance, to reproduce a training run, it is important to create exactly the same data batch for each step as in the original experiment. It is quite likely that just based on randomization of the samples, you can get model that performs significantly differently. Data is also important for debugging too because an error can occur at different steps of the training and it makes things difficult to unfold.
+
+Environment means using the exact same environment deterministically. Environment comprises libraries, programming language and the hardware. We need to log all these in a way that is recretable. For running things determenistically, we need to use the same seed and prevent certain randomized actions of the underlying code. For logging the environment, there are experiment trackers that are able to do that and I really suggest using one of them (ClearML, MLFlow). For deterministic execution, here is a segment of code you can use with PyTorch trainings.
+
+```python
+random.seed(training_seed)
+os.environ["PYTHONHASHSEED"] = str(training_seed)
+np.random.seed(training_seed)
+torch.manual_seed(training_seed)
+torch.cuda.manual_seed(training_seed)
+
+torch.backends.cudnn.deterministic = True
+torch.backends.cudnn.benchmark = False
+```
+
+At 🐸Coqui, we use ClearML for experiment tracking that log all the necesasary details like uncommited changes, versions, hardware and more. It even helps you rerun your expriments with a single click with a simple setup on your cluster. We also use our own open-source PyTorch based [👟Trainer](https://github.com/coqui-ai/Trainer). It is simple, optimized for performance, experiment logging and reproducibility. It ticks all the boxes for us.
+
+### Final words
+
+There is yet not a certain recipe for ML teams that works for everyone. I think it is hand-to-hand with the MLOps tools & practices. As we have better tools, softwares and practices, it gets easier for teams to be more efficient.
+
+Most of the content here reflects my experience at 🐸Coqui and open-source development (🐸TTS). I just wanted to share what has been worked for us thinking it'd help some people. Let me know your comments.
+
+Before I finish, I also like to thank my team @Coqui (Aya, Edresson, Logan, Julian). You are the best!!
