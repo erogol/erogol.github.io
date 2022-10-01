@@ -6,7 +6,6 @@ summary: Don't create APIs for ML, just copy&paste. Test every line. If you aren
 tags: tts machine-learning
 minute: 7
 ---
-## TODOs for Effective ML team work at an early stage startup
 
 TLDL,
 
