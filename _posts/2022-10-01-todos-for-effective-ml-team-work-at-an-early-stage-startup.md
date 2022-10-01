@@ -1,6 +1,6 @@
 ---
 layout: post
-title: TODOs for Effective ML team work at an early stage startup
+title: TODOs for Effective ML teamwork at an early-stage startup
 description: My take on things to do for effective team work for solving Machine Learning problems at an early stage company.
 summary: Don't create APIs for ML, just copy&paste. Test every line. If you aren't sure about the design, test first. Always keep your experiments reproducible (lineage, data, code, baseline). Document everything. Be clear, and avoid abbreviations.
 tags: tts machine-learning
