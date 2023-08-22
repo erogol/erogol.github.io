@@ -1,4 +1,11 @@
-# Newsletter #1
+---
+layout: post
+title: Newsletter-1
+description: ML notes, news, and open-source.
+summary:
+tags: machine-learning mlops newsletter news research
+minute: 5
+---
 
 (This is the lazier version of my [substack](https://erogol.substack.com/).)
 
@@ -29,22 +36,18 @@ So let's dive in
 
 ### ****AI2 Dolma: 3 Trillion Token Open Corpus for Language Model Pretraining****
 
-👉 [Data](https://huggingface.co/datasets/allenai/dolma)
-
-👉 [Blogpost](https://blog.allenai.org/dolma-3-trillion-tokens-open-llm-corpus-9a0ff4b8da64)
-
-👉 [Datasheet](https://drive.google.com/file/d/12gOf5I5RytsD159nSP7iim_5zN31FCXq/view)
-
+👉 [Data](https://huggingface.co/datasets/allenai/dolma)<br>
+👉 [Blogpost](https://blog.allenai.org/dolma-3-trillion-tokens-open-llm-corpus-9a0ff4b8da64)<br>
+👉 [Datasheet](https://drive.google.com/file/d/12gOf5I5RytsD159nSP7iim_5zN31FCXq/view)<br>
 👉 [Code](https://github.com/allenai/dolma)
 
 Allen Institute for AI has released a new dataset for pre-training language models. They also open-sourced the code that they used to format this dataset. Data is under the [AI 2 ImPACT license](https://allenai.org/impact-license). I don’t know if it is a coincidence but Dolma is also one of my favorite [dishe](https://www.google.com/search?sca_esv=558576318&sxsrf=AB5stBj-WoSZ_13PBzv_QlE2b7Z3q4_I7g:1692547838450&q=dolma&tbm=isch&source=lnms&sa=X&ved=2ahUKEwi2-LOF0OuAAxVmSPEDHVsCDacQ0pQJegQICBAB&biw=1470&bih=834&dpr=2)s.
 
 ## Research
 
-### RRHF: Align LLMS with Human Feedback using Ranking
+### RRHF:Align LLMS with Human Feedback using Ranking
 
-👉 [Paper](pdf)
-
+👉 [Paper](pdf)<br>
 👉 [Code](https://github.com/GanjinZero/RRHF)
 
 - A new framework for RRHF to align LLMs with Human Feedback using Ranking Loss.
@@ -90,7 +93,7 @@ We'll see if it will take another 5 years for someone to create the next level o
 
 ### SpeechX - One model for many audio tasks.
 
-👉 [Project page](https://www.microsoft.com/en-us/research/project/speechx/)
+👉 [Project page](https://www.microsoft.com/en-us/research/project/speechx/)<br>
 👉 [Paper](https://arxiv.org/pdf/2308.06873.pdf)
 
 [SpeechX](https://www.microsoft.com/en-us/research/project/speechx/) is a new model from Microsoft that can perform multiple speech tasks. This is my field I go deeper about this one.
@@ -126,7 +129,7 @@ We also see the effect of transfer learning. The model performs better when it i
 
 ### Interspeech 2023 papers
 
-👉 https://github.com/DmitryRyumin/INTERSPEECH-2023-Papers
+👉 [Repo](https://github.com/DmitryRyumin/INTERSPEECH-2023-Papers)
 
 Interspeech 2023 is happening or happened recently. It is one of the most important conferences in audio and speech tech. In the repo, they organized the papers into different topics and give links to the papers and codes. Shout out to **[𝙳𝚖𝚒𝚝𝚛𝚢 𝚁𝚢𝚞𝚖𝚒𝚗](https://github.com/DmitryRyumin)** and the contributors.
 
@@ -140,16 +143,14 @@ Rust is awesome but it misses a solid ML framework. Either Python will get rid o
 
 ### 🐸 CoquiTTS - Text-to-Speech in >1100 languages.
 
-👉 [Code](https://github.com/coqui-ai/TTS)
-
+👉 [Code](https://github.com/coqui-ai/TTS)<br>
 👉 [Docs](https://tts.readthedocs.io/en/latest/)
 
 🐸TTS is the library, I spend years developing it. Started when I was at Mozilla then forked it when I co-founded [coqui.ai](https://coqui.ai/). It is like Transformers but for TTS. Many different model implementations, utilities to train new models, and pre-trained models that are downloaded >1m monthly. So if you need a voice your thing, give this a try.
 
 ### Diffiner - Sony
 
-👉 [Code](https://github.com/sony/diffiner)
-
+👉 [Code](https://github.com/sony/diffiner)<br>
 👉 [Paper](https://www.isca-speech.org/archive/interspeech_2023/sawata23_interspeech.html)
 
 This is a speech enhancement model based on a diffusion model. They provide a pre-trained model and training code.
@@ -164,11 +165,13 @@ Basically, Quivr helps you store any media content and create a database that yo
 
 ## Extras
 
-### [Debate on AI - Bengio, Tegmark vs Mitchell, Lecun](https://www.youtube.com/watch?v=144uOfr4SYA)
+### Debate on AI - Bengio, Tegmark vs Mitchell, Lecun
+👉 [Youtube](https://www.youtube.com/watch?v=144uOfr4SYA)
 
 The debate about "Existential Risk of AI". It’s a long bit but worth it if you are into the discussion.
 
-### [A Talk about Unsupervised Learning](https://www.youtube.com/watch?v=AKMuA_TVz3A)
+### A Talk about Unsupervised Learning
+👉 [Youtube](https://www.youtube.com/watch?v=AKMuA_TVz3A)
 
 An interesting talk from one of the ChatGPT creators Ilya Sutskever (OpenAI). He gives his own perspective on unsupervised learning and draws some parallels with data compression, and Kolmogorov complexity for the theory of unsupervised learning.
 
