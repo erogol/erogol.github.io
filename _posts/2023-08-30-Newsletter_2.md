@@ -37,6 +37,7 @@ So let's dive in...
 **TLDR.** In a recent survey conducted by AMD, insights have been revealed regarding the adoption of AI in enterprises. The survey involved 2,500 IT leaders from the US, UK, Germany, France, and Japan. The results showed that almost half of the enterprises are at risk of falling behind in AI.
 
 ### China published Generative AI Governance Rules
+
 🔗 [Link](http://www.cac.gov.cn/2023-07/13/c_1690898327029107.htm)
 
 **TLDR.** It's essential for those running generative AI to make sure their services align with the fundamental principles of socialism, and steer clear of any content that promotes the overthrow of government power, separation, terrorism, or any activities that could weaken national unity and societal stability.
@@ -48,7 +49,9 @@ In most situations, those who run generative AI services are required to secure 
 ## Research
 
 ### MeZO: Fine-Tuning Language Models with Just Forward Passes
+
 🔬[Paper](https://arxiv.org/pdf/2305.17333.pdf)
+
 👉[Code](https://github.com/princeton-nlp/mezo)
 
 This work proposes a memory-efficient zeroth-order optimizer (MeZO) for fine-tuning language models with just forward passes. The method significantly outperforms other techniques and achieves comparable performance to fine-tuning with backpropagation with up to 12× memory reduction.
@@ -73,7 +76,9 @@ This work proposes a memory-efficient zeroth-order optimizer (MeZO) for fine-tun
 
 
 ### Composable Function Preserving Expansions for Transformers
+
 🔬[Paper](https://arxiv.org/abs/2308.06103)
+
 👉[Code](https://github.com/google-research/google-research/blob/master/muNet/TransformerExpansions.ipynb)
 
 This paper proposes six composable transformations to incrementally increase the size of transformer-based neural networks while preserving functionality, allowing for more efficient training pipelines for larger and more powerful models. The proposed transformations are evaluated on several benchmark datasets and show improved performance compared to existing methods.
@@ -121,7 +126,9 @@ If you are interested in the topic of consciousness in general, I strongly sugge
 </figure>
 
 👉 [Github](https://github.com/haotian-liu/LLaVA)
+
 🔬 [Paper](https://arxiv.org/abs/2304.08485)
+
 👉 [Demo](https://llava.hliu.cc/)
 
 The paper introduces LLaVA, a Large Language and Vision Assistant, which is an end-to-end trained large multimodal model that is based on a vision encoder and a language decoder for general-purpose visual and language understanding.
@@ -147,11 +154,14 @@ The paper introduces LLaVA, a Large Language and Vision Assistant, which is an e
 ## Open Source
 
 ### Prompt2Model
+
 👉 [Github](https://github.com/neulab/prompt2model)
+
 Prompt2Model is a system that takes a natural language task description (like the prompts used for LLMs such as ChatGPT) to train a small special-purpose model that is conducive for deployment.
 
 
 ### Lilac
+
 👉 [Github](https://lilacml.com/blog/introducing-lilac.html)
 
 Lilac is an open-source tool that enables AI practitioners to see and quantify their datasets.
