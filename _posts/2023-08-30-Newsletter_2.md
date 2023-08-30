@@ -20,7 +20,28 @@ So yeah, it's been a pretty packed week for me. Training more & more TTS models 
 
 So let's dive in...
 
-<!--- ## Bits&Pieces -->
+## Bits&Pieces
+
+### ChatGPT's Political Bias in a Study
+
+🔗 [Link](https://link.springer.com/article/10.1007/s11127-023-01097-2)
+
+**TLDR.** A study conducted by researchers in computer and information science from the UK and Brazil has raised concerns about the objectivity of ChatGPT. According to the researchers, they have discovered significant political bias in ChatGPT's responses, which tend to lean towards the left side of the political spectrum.
+
+### AMD: nearly half of enterprises not fully utilizing the benefits of AI.
+
+📈  [PDF](https://www.amd.com/content/dam/amd/en/documents/solutions/ai/ai-outlook-are-it-teams-prepared.pdf)
+
+**TLDR.** In a recent survey conducted by AMD, insights have been revealed regarding the adoption of AI in enterprises. The survey involved 2,500 IT leaders from the US, UK, Germany, France, and Japan. The results showed that almost half of the enterprises are at risk of falling behind in AI.
+
+### China published Generative AI Governance Rules
+🔗 [Link](http://www.cac.gov.cn/2023-07/13/c_1690898327029107.htm)
+
+**TLDR.** It's essential for those running generative AI to make sure their services align with the fundamental principles of socialism, and steer clear of any content that promotes the overthrow of government power, separation, terrorism, or any activities that could weaken national unity and societal stability.
+
+When utilizing data for model creation, it's crucial to honor intellectual property rights and secure permission from individuals before including their personal details. Emphasis is also placed on enhancing the quality, genuineness, precision, impartiality, and variety of the data used for training.
+
+In most situations, those who run generative AI services are required to secure licenses, introducing an additional level of regulatory supervision.
 
 ## Research
 
