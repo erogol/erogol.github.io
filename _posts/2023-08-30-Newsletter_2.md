@@ -30,7 +30,7 @@ So let's dive in...
 
 ### AMD: nearly half of enterprises not fully utilizing the benefits of AI.
 
-📈  [PDF](https://www.amd.com/content/dam/amd/en/documents/solutions/ai/ai-outlook-are-it-teams-prepared.pdf)
+📈 [PDF](https://www.amd.com/content/dam/amd/en/documents/solutions/ai/ai-outlook-are-it-teams-prepared.pdf)
 
 **TLDR.** In a recent survey conducted by AMD, insights have been revealed regarding the adoption of AI in enterprises. The survey involved 2,500 IT leaders from the US, UK, Germany, France, and Japan. The results showed that almost half of the enterprises are at risk of falling behind in AI.
 
