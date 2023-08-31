@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Page-Enter" content="blendTrans(Duration=.5)" />
+    <meta http-equiv="Page-Exit" content="blendTrans(Duration=.5)" />
+    <title>SimpleMDE Markdown Editor - Context Menu</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <style>
+        body {
+            background-color: #2a2a2a;
+            color: #d4d4d4;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1000px;
+            /* Adjust the max width as needed */
+            margin: 0 auto;
+            padding: 20px;
+            max-width: 90vw;
+            /* Set the maximum width as 90% of viewport width */
+        }
+
+        .editor-toolbar,
+        .editor-preview {
+            background-color: #3a3a3a;
+            color: #d4d4d4;
+        }
+
+        .editor-toolbar .fa,
+        .editor-toolbar .material-icons {
+            color: #999 !important;
+        }
+
+        .editor-toolbar a:hover,
+        .editor-toolbar button:hover {
+            color: #fff;
+        }
+
+        .editor-toolbar i {
+            color: #d4d4d4;
+        }
+
+        .editor-toolbar {
+            border: none;
+            padding: 4px 0;
+            opacity: 0;
+            transition: opacity 0.3s;
+            height: 30px;
+            margin-top: 3px;
+        }
+
+        .editor-toolbar:before {
+            margin-bottom: 1px;
+        }
+
+        .editor-toolbar:after {
+            margin-top: 1px;
+        }
+
+        .editor-toolbar .btn {
+            line-height: 20px;
+            /* Adjust the line-height */
+            height: 28px;
+            /* Adjust the button height */
+        }
+
+        .CodeMirror {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            border-color: #3a3a3a;
+            height: 90vh;
+            /* Set the height as 60% of viewport height */
+        }
+
+        /* Change the color of the text selection */
+        .CodeMirror-focused .CodeMirror-selected {
+            background-color: rgba(255, 255, 255, 0.317);
+            /* Transparent orange */
+        }
+
+        .CodeMirror-cursor {
+            border-left: 1px solid #d4d4d4;
+        }
+
+        .editor-preview-active {
+            background-color: #2a2a2a;
+            /* Change the active preview background color */
+            color: #d4d4d4;
+        }
+
+        .editor-preview-active a {
+            color: orange;
+            /* Change link color in active preview */
+        }
+
+        .context-menu {
+            position: absolute;
+            background-color: #3a3a3a;
+            color: #d4d4d4;
+            padding: 5px;
+            border-radius: 5px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .context-menu.active {
+            display: block;
+        }
+
+        /* Apply styles when hovering over a menu item */
+        .context-menu div:hover {
+            background-color: #555;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Apply styles when hovering over a menu item */
+        .context-menu div {
+            padding: 10px 15px;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .context-menu div:last-child {
+            border-bottom: none;
+        }
+
+        .context-menu div:hover {
+            background-color: #555;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Add styles for highlighting */
+        .highlight-inserted {
+            background-color: #dd874454;
+            /* Yellow background for highlighting */
+            transition: background-color 3s;
+            /* Transition duration */
+        }
+
+        /* Highlight added text */
+        .highlight-added {
+            background-color: #dd874454;
+            /* Light green background */
+            transition: background-color 3s;
+        }
+
+        /* Loading overlay */
+        .text-area-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #dddddd42;
+            /* Light gray */
+            /* Semi-transparent white */
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            /* Place it above other elements */
+        }
+
+        .text-area-loading-spinner {
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #333;
+            /* Spinner color */
+            animation: spin 1s linear infinite;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Show the toolbar on hover */
+        #editor-container:hover #toolbar {
+            opacity: 1;
+        }
+
+        /* Help window styles */
+        #help-window {
+            position: absolute;
+            top: 50px;
+            /* Adjust the top position as needed */
+            left: 50%;
+            /* Center horizontally */
+            transform: translateX(-50%);
+            width: 40%;
+            /* Adjust the width as needed */
+            background-color: #333;
+            /* Light gray background */
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: none;
+            font-family: Arial, sans-serif;
+            z-index: 1000;
+        }
+
+        #help-window h2 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #ccc;
+            /* Dark text color */
+        }
+
+        #help-window p {
+            color: #ccc;
+            /* Medium gray text color */
+        }
+
+        #help-window a {
+            color: orange;
+            /* Orange link color */
+        }
+
+        #closeButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #666;
+            /* Medium gray text color */
+            transition: color 0.3s;
+        }
+
+        #closeButton:hover {
+            color: #333;
+            /* Dark text color on hover */
+        }
+    </style>
+</head>
+
+<body style="opacity: 0;">
+    <div class="container">
+        <div class="editor">
+            <textarea id="markdown-editor">
+# Markdown Syntax Samples
+
+## Headers
+This is some text
+
+# Header 1
+## Header 2
+### Header 3
+
+## Emphasis
+
+*Italic Text*
+**Bold Text**
+***Bold Italic Text***
+
+## Lists
+
+### Unordered List
+- Item 1
+- Item 2
+  - Subitem 1
+  - Subitem 2
+
+### Ordered List
+1. First Item
+2. Second Item
+   1. Subitem A
+   2. Subitem B
+
+## Links
+
+[Visit OpenAI](https://www.openai.com)
+[Visit GitHub](https://www.github.com)
+
+## Images
+
+![Alt Text](https://www.example.com/image.jpg)
+
+## Blockquotes
+
+> This is a blockquote.
+> It can span multiple lines.
+
+## Code
+
+### Inline Code
+Use backticks to highlight `inline code`.
+
+### Code Block
+```python
+def greet(name):
+    print(f"Hello, {name}!")
+
+            </textarea>
+            <div class="context-menu" id="contextMenu">
+                <div id="autoComplete">Autocomplete</div>
+                <div id="makeFluent">Make it Fluent</div>
+                <div id="paraphrase">Paraphrase</div>
+                <div id="correctSpelling">Correct Spelling</div>
+            </div>
+            <div class="text-area-overlay" id="loadingOverlay">
+                <div class="text-area-loading-spinner"></div>
+            </div>
+            <div id="help-window">
+                <div id="closeButton">X</div>
+                <h2>🤖 ME-AI</h2>
+                <p>
+                    aka Markdown editor with AI.<br><br>
+                </p>
+                <h2>Usage</h2>
+                <p>
+                <div>
+                    <p>Right-click anywhere in the editor to see the AI options. </p>
+
+                    <p>The menu has the following options:</p>
+
+                    <ul>
+                        <li>Autocomplete: Autocompletes the selected text.</li>
+                        <li>Make It Fluent: Makes the selected text fluent.</li>
+                        <li>Paraphrase: Paraphrases the selected text.</li>
+                        <li>Correct Spelling: Corrects the spelling of the selected text.</li>
+                    </ul>
+
+                    <p>The editor also has a toolbar that appears when you hover with your mouse on the top. It has all
+                        the klassik editor options and the following extras:</p>
+
+                    <ul>
+                        <li>Preview: Toggle the preview pane.</li>
+                        <li>Save: Save the text to local storage, so you can continue writing next time.</li>
+                        <li>Load: Load the text from local storage.</li>
+                        <li>Download: Download the text as a .md file.</li>
+                        <li>Upload: Upload a .md file to the editor.</li>
+                        <li>Help: Show this help dialog.</li>
+                    </ul>
+
+                    <h2>Notes</h2>
+                    <ul>
+                        <li>If no text selected, 🤖 will try to update the last paragraph.</li>
+                        <li>The editor saves the current content to local storage every minute. So you can continue your
+                            work later on.</li>
+                        <li>MDAI-II does not store any of your data to a server. There is actually no server.</li>
+                    </ul>
+                </div>
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsdiff/5.0.0/diff.min.js"></script>
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var contextMenu = document.getElementById("contextMenu");
+            var editorDiv = document.querySelector(".editor");
+            var simplemde;
+            var savedScrollInfo = null;
+            var cursorPosition = null;
+            var loadingOverlay = document.getElementById("loadingOverlay"); // Get the loading overlay
+            var helpWindow = document.getElementById("help-window");
+            var previousText = ""; // Store the previous text for highlighting
+
+            var saveAction = function (editor) {
+                // Load the text from local storage and set it to SimpleMDE
+                console.log("Saving text to local storage");
+                localStorage.setItem("editorText", simplemde.codemirror.getValue());
+            };
+
+            var loadAction = function (editor) {
+                // Load the text from local storage and set it to SimpleMDE
+                console.log("Loading text from local storage");
+                simplemde.value(localStorage.getItem("editorText"));
+            };
+
+            var deleteAction = function (editor) {
+                // Show a confirmation dialog before deleting the text from local storage
+                var confirmed = confirm("❗ This nukes all the text. Are you sure?");
+
+                if (confirmed) {
+                    // Delete the text from local storage
+                    console.log("Deleting text from local storage");
+                    localStorage.removeItem("ed☢️itorText");
+                    simplemde.value("");
+                }
+            };
+
+            var downloadAction = function (editor) {
+                // Get the content from the editor
+                var content = simplemde.value();
+
+                // Create a Blob with the content
+                var blob = new Blob([content], { type: "text/plain" });
+
+                // Create a downloadable URL for the Blob
+                var url = URL.createObjectURL(blob);
+
+                // Create a link element for downloading
+                var downloadLink = document.createElement("a");
+                downloadLink.href = url;
+                downloadLink.download = "markdown.txt"; // Specify the filename
+                downloadLink.textContent = "Download"; // Displayed text
+                downloadLink.style.display = "none"; // Hide the link
+
+                // Append the link to the document and simulate a click
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+
+                // Clean up
+                document.body.removeChild(downloadLink);
+                URL.revokeObjectURL(url);
+            };
+
+            var uploadAction = function (editor) {
+                // Create an input element for file selection
+                var fileInput = document.createElement("input");
+                fileInput.type = "file";
+                fileInput.accept = ".txt"; // Accept only text files
+                fileInput.style.display = "none"; // Hide the input
+
+                // Append the input to the document and simulate a click
+                document.body.appendChild(fileInput);
+                fileInput.click();
+
+                // Listen for the file input change event
+                fileInput.addEventListener("change", function (e) {
+                    var file = e.target.files[0];
+                    if (file) {
+                        var reader = new FileReader();
+                        reader.onload = function (event) {
+                            // Set the loaded content to the editor
+                            simplemde.value(event.target.result);
+                        };
+                        reader.readAsText(file);
+                    }
+                    // Clean up the input element
+                    document.body.removeChild(fileInput);
+                });
+            };
+
+            var helpAction = function (editor) {
+                // Show a help dialog
+                helpWindow.style.display = "block";
+                closeButton = document.createElement("div");
+            };
+
+            var resetApiKeyAction = function (editor) {
+                // Show a confirmation dialog before deleting the text from local storage
+                var confirmed = confirm("❗ This will reset your API key. Are you sure?");
+
+                if (confirmed) {
+                    // Delete the text from local storage
+                    console.log("Deleting API key from local storage");
+                    localStorage.removeItem("API_KEY");
+                    API_KEY = null;
+                }
+
+                set_api_key();
+            };
+
+            simplemde = new SimpleMDE({
+                element: document.getElementById("markdown-editor"),
+                toolbar: [
+                    "bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|",
+                    "link", "image", "table", "|", "preview", "side-by-side", "fullscreen", "|",
+                    {
+                        name: "save",
+                        action: saveAction,
+                        className: "fa fa-save",
+                        title: "Save to Cache"
+                    },
+                    {
+                        name: "load",
+                        action: loadAction,
+                        className: "fa fa-undo",
+                        title: "Load from Cache"
+                    },
+                    {
+                        name: "delete",
+                        action: deleteAction,
+                        className: "fa fa-trash",
+                        title: "Empty Cache"
+                    },
+                    {
+                        name: "download",
+                        action: downloadAction,
+                        className: "fa fa-download",
+                        title: "Download"
+                    },
+                    {
+                        name: "upload",
+                        action: uploadAction,
+                        className: "fa fa-upload",
+                        title: "Upload",
+                    },
+                    {
+                        name: "reset-api-key",
+                        action: resetApiKeyAction,
+                        className: "fa fa-key",
+                        title: "Reset API Key"
+                    },
+                    {
+                        name: "help",
+                        action: helpAction,
+                        className: "fa fa-question-circle",
+                        title: "Help"
+                    },
+
+                ],
+                // Apply custom styles for full-screen mode
+                fullscreenToggle: true,
+                onToggleFullScreen: function (isFullScreen) {
+                    if (isFullScreen) {
+                        // Apply custom styles for full-screen mode
+                        document.querySelector(".editor-toolbar").style.backgroundColor = "#3a3a3a";
+                        document.querySelector(".editor-toolbar").style.color = "#d4d4d4";
+                    } else {
+                        // Restore original styles when exiting full-screen mode
+                        document.querySelector(".editor-toolbar").style.backgroundColor = "#3a3a3a";
+                        document.querySelector(".editor-toolbar").style.color = "#d4d4d4";
+                    }
+                }
+            });
+
+
+            // Load the text from local storage and set it to SimpleMDE
+            var savedText = localStorage.getItem("editorText");
+            if (savedText) {
+                previousText = savedText;
+                simplemde.value(savedText);
+            }
+
+            editorDiv.addEventListener("contextmenu", function (e) {
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    contextMenu.style.left = e.pageX + "px";
+                    contextMenu.style.top = e.pageY + "px";
+                    contextMenu.classList.add("active");
+                }
+            });
+
+            document.addEventListener("click", function (e) {
+                if (!contextMenu.contains(e.target)) {
+                    contextMenu.classList.remove("active");
+                }
+                contextMenu.classList.remove("active");
+            });
+
+            // Close the help window when the close button is clicked
+            closeButton.addEventListener("click", function () {
+                helpWindow.style.display = "none";
+                helpWindow.removeChild(closeButton);
+            });
+
+            contextMenu.addEventListener("click", async function (e) {
+                // Keep the scroll position the same after updating the text
+                var selectedText = simplemde.codemirror.getSelection();
+                savedScrollInfo = simplemde.codemirror.getScrollInfo();
+
+                previousText = simplemde.codemirror.getValue();
+                showLoadingOverlay();
+
+
+                if (e.target.id === "autoComplete") {
+                    if (selectedText) {
+                        await autoCompleteText(selectedText);
+                    }
+                    else {
+                        var lastParagraph = getCurrentParagraph();
+                        console.log(lastParagraph);
+
+                        if (lastParagraph) {
+                            await autoCompleteText(lastParagraph);
+                        }
+                    }
+                }
+                if (e.target.id === "makeFluent") {
+                    if (selectedText) {
+                        await makeFluentLastParagraph(selectedText);
+                    }
+                    else {
+                        var lastParagraph = getCurrentParagraph();
+                        if (lastParagraph) {
+                            await makeFluentLastParagraph(lastParagraph);
+                        }
+                    }
+                }
+                if (e.target.id === "paraphrase") {
+                    if (selectedText) {
+                        await paraphraseLastParagraph(selectedText);
+                    }
+                    else {
+                        var lastParagraph = getCurrentParagraph();
+                        if (lastParagraph) {
+                            await paraphraseLastParagraph(lastParagraph);
+                        }
+                    }
+                }
+                if (e.target.id === "correctSpelling") {
+                    if (selectedText) {
+                        await correctSpellingText(selectedText);
+                    }
+                    else {
+                        var lastParagraph = getCurrentParagraph();
+                        if (lastParagraph) {
+                            await correctSpellingText(lastParagraph);
+                        }
+                    }
+                }
+                if (savedScrollInfo) {
+                    simplemde.codemirror.scrollTo(savedScrollInfo.left, savedScrollInfo.top);
+                    savedScrollInfo = null; // Reset after restoration
+                }
+                hideLoadingOverlay();
+                highlightAddedText();
+            });
+
+            // Function to show the loading overlay
+            function showLoadingOverlay() {
+                loadingOverlay.style.display = "flex";
+            }
+
+            // Function to hide the loading overlay
+            function hideLoadingOverlay() {
+                loadingOverlay.style.display = "none";
+            }
+
+            // Function to get the paragraph where the cursor is located
+            function getCurrentParagraph() {
+                cursorPosition = simplemde.codemirror.getCursor();
+                var lineNumber = cursorPosition.line;
+                var content = simplemde.value();
+                var lines = content.split("\n");
+
+                var currentParagraph = "";
+
+                for (var i = lineNumber; i >= 0; i--) {
+                    if (lines[i].trim() === "") {
+                        break;
+                    } else if (lines[i].startsWith("#")) {
+                        currentParagraph = lines[i] + "\n" + currentParagraph;
+                        break;
+                    } else if (/^(\*|\-|\+|\d+\.)\s/.test(lines[i])) {
+                        currentParagraph = lines[i] + "\n" + currentParagraph;
+                        break;
+                    } else {
+                        currentParagraph = lines[i] + "\n" + currentParagraph;
+                    }
+                }
+
+                return currentParagraph.trim();
+            }
+            // Function to auto complete the last paragraph
+            // Function to auto-complete text
+            async function autoCompleteText(inputText) {
+                // const response = await fetch("http://127.0.0.1:5000/auto_complete", {
+                //     method: "POST",
+                //     headers: {
+                //         "Content-Type": "application/json"
+                //     },
+                //     body: JSON.stringify({ input: inputText })
+                // });
+
+                // const data = await response.json();
+                // const autoCompletion = data.auto_completion;
+
+                const autoCompletion = await auto_complete(inputText)
+
+                console.log(autoCompletion);
+
+                if (autoCompletion) {
+                    simplemde.codemirror.replaceSelection(autoCompletion);
+
+                    // Get the start and end positions of the inserted text
+                    var fromPos = simplemde.codemirror.indexFromPos(cursorPosition);
+                    var toPos = fromPos + autoCompletion.length;
+
+                    // Remove the highlighting class after the specified duration
+                    console.log("Marking inserted text:", fromPos, toPos);
+                    simplemde.codemirror.markText(
+                        simplemde.codemirror.posFromIndex(fromPos),
+                        simplemde.codemirror.posFromIndex(toPos),
+                        { className: "highlight-inserted" }
+                    );
+
+                    setTimeout(function () {
+                        console.log("Clearing highlights");
+                        simplemde.codemirror.getAllMarks().forEach(function (mark) {
+                            if (mark.className === "highlight-inserted") {
+                                mark.clear();
+                            }
+                        });
+                    }, 3000);
+                }
+
+            }
+
+            // Function to make the last paragraph fluent
+            async function makeFluentLastParagraph(lastParagraph) {
+                // const response = await fetch("http://127.0.0.1:5000/make_fluent", {
+                //     method: "POST",
+                //     headers: {
+                //         "Content-Type": "application/json"
+                //     },
+                //     body: JSON.stringify({ input: lastParagraph })
+                // });
+
+                // const data = await response.json();
+                // const fluentResponse = data.fluent_response;
+
+                const fluentResponse = await make_fluent(lastParagraph)
+
+                if (fluentResponse) {
+                    const updatedContent = simplemde.value().replace(lastParagraph, fluentResponse);
+                    simplemde.value(updatedContent);
+                }
+            }
+
+            // Function to make the last paragraph fluent
+            async function paraphraseLastParagraph(lastParagraph) {
+                // const response = await fetch("http://127.0.0.1:5000/paraphrase", {
+                //     method: "POST",
+                //     headers: {
+                //         "Content-Type": "application/json"
+                //     },
+                //     body: JSON.stringify({ input: lastParagraph })
+                // });
+
+                // const paraphraseRespose = await response.json();
+                // const paraphraseRespose = data.paraphrase_response;
+
+                const paraphraseRespose = await paraphrase(lastParagraph)
+
+                console.log(paraphraseRespose);
+
+                if (paraphraseRespose) {
+                    const updatedContent = simplemde.value().replace(lastParagraph, paraphraseRespose);
+                    simplemde.value(updatedContent);
+                }
+            }
+
+            //Fucntion to correct spelling
+            async function correctSpellingText(inputText) {
+                const response = await correctSpelling(inputText)
+                console.log(response)
+                if (response) {
+                    const updatedContent = simplemde.value().replace(inputText, response);
+                    simplemde.value(updatedContent);
+                }
+            }
+
+            // Function to highlight added text
+            function highlightAddedText() {
+                var addedText = simplemde.codemirror.getValue();
+                var diff = Diff.diffWordsWithSpace(previousText, addedText);
+
+                // Reset previous highlights
+                simplemde.codemirror.getAllMarks().forEach(function (mark) {
+                    if (mark.className === "highlight-added") {
+                        mark.clear();
+                    }
+                });
+
+                var addedCount = 0;
+                diff.forEach(function (part) {
+                    if (part.added) {
+                        // Apply highlighting class to the added part
+                        var from = addedCount;
+                        var to = from + part.value.length;
+                        simplemde.codemirror.markText(
+                            simplemde.codemirror.posFromIndex(from),
+                            simplemde.codemirror.posFromIndex(to),
+                            { className: "highlight-added" }
+                        );
+                        addedCount += part.value.length;
+                    } else if (!part.removed) {
+                        addedCount += part.value.length;
+                    }
+                });
+
+                // Store the current text as previousText for the next change event
+                previousText = addedText;
+
+                setTimeout(function () {
+                    console.log("Clearing highlights");
+                    simplemde.codemirror.getAllMarks().forEach(function (mark) {
+                        if (mark.className === "highlight-added") {
+                            mark.clear();
+                        }
+                    });
+                }, 3000);
+            }
+
+            // Call the save to cache function every minute
+            setInterval(function () {
+                console.log("Saving text to local storage...");
+                saveAction(simplemde)
+            }, 60000);
+        });
+        window.onload = function () { setTimeout(function () { document.body.style.opacity = "100"; }, 500); };
+    </script>
+</body>
+
+</html>
