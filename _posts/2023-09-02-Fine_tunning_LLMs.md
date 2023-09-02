@@ -137,7 +137,7 @@ In addition, there are specific techniques, such as LoRA, that can enhance the e
 
 The evaluation process marks the start of the fine-tuning process rather than the conclusion. The objective is to continuously enhancing our model by conducting **error analysis** after each iteration. We assess our current model (at first, the base model), identifying errors and recurring issues. In the subsequent iteration, we determine if these issues have been resolved. If not, we incorporate additional targeted data to address these.
 
-Common issues might be misspellings, long responses, repetitions, in-consistency, or hallucination.
+Common issues might be misspellings, long responses, repetitions, inconsistency, or hallucinations.
 
 There are different formats of evaluation:
 
