@@ -14,15 +14,15 @@ minute: 5
 
 👉 Subscribe to my [Substack](https://erogol.substack.com/) to get the latest news and articles.
 
-I recently dedicated some time to watching the [new course](https://www.deeplearning.ai/short-courses/finetuning-large-language-models/) on fine-tuning large language models, offered by Deep Learning AI. I took notes during my viewing and would like to share them here.
+I recently dedicated some time to watching the [new course](https://www.deeplearning.ai/short-courses/finetuning-large-language-models/) on fine-tuning large language models offered by Deep Learning AI. I took notes during my viewing and would like to share them here.
 
 ## What is fine-tuning?
 
-Specializing LLMs, teaching a new skill as oppose to expanding its knowledge base. GPT4 is finetuned for Copilot to be a code assistant like a doctor is trained to be a dermatologist.
+Specializing LLMs, teaching a new skill instead of expanding its knowledge base. GPT4 is fine-tuned for Copilot to be a code assistant like a doctor is trained to be a dermatologist.
 
 ## What does fine-tuning do?
 
-Learn the data rather than just accessing it
+Learn the data rather than just accessing it.
 
 - More consistent outputs
 - Reduced hallucinations
@@ -37,20 +37,20 @@ Learn the data rather than just accessing it
 - Performance
     - **Reduced Hallucination:** Reliable outputs tuned for the task.
     - **Consistency:** Maintaining consistency by responding uniformly to the same input.
-    - **Reduce unwanted information:** Pre-trained models tend to be verbose and repetitive.
+    - **Reduce unwanted information:** Pre-trained models are lengthy and repetitive.
 
 - Privacy
-    - **Keep your data in-house:** It is not okay to share your private data with a 3rd party every time in a prompt.
+    - **Keep your data in-house:** It is not OK to share your private data with a 3rd party every time in a prompt.
 
 - Cost
     - **Lower cost per request:** Prompting LLM services is expensive, especially when combined with vector search and contextual information.
-    - **Control:** For an enterprise, it is important to control technology to be adaptive and flexible enough when things change.
+    - **Control:** For an enterprise, controlling technology must be adaptive and flexible enough when things change.
     - **Transparency:** If you know what goes in, what comes out, and how things work, you can act more efficiently and make better decisions.
 
 - Reliability
     - **Uptime:** It is easier to meet the uptime requirements of a model you own than relying on an external service.
-    - **Latency:** Fine-tuned models are more efficient and you can optimize them according to your needs.
-    - **Moderation:** You can easily feature flag or moderate inputs/outputs of your models.
+    - **Latency:** Fine-tuned models are more efficient, and you can optimize them according to your needs.
+    - **Moderation:** You can easily feature your models' flag or moderate inputs/outputs.
 
 ## Pretraining
 
@@ -66,23 +66,23 @@ Learn the data rather than just accessing it
 - Much less data
 - Labeled data based on the target task
 - Cheaper
-- Easier to find data → In the organization, Internet
-- Data curation is more important → “Your model is what your data is”
+- Easier to find data → In the organization, the Internet
+- Data curation is more critical → “Your model is what your data is.”
 
-## Way to Finetuning
+## Way to Fine-tuning
 
 - Check a pre-trained LLM performance on the task by prompt engineering.
 - Find cases LLM performs ≤ OK.
 - Get ~1000 samples for the task that shows examples better than the LLM.
-- Finetune a small LLM on this data.
+- Fine-tune a small LLM on this data.
 - Compare with the pre-trained LLM.
 - Repeat until you get satisfying results.
 
-## Instruction Finetuning
+## Instruction Fine-tuning
 
 A specific way of fine-tuning that teaches models to follow instructions like a chatbot. It gave ChatGPT the ability to chat.
 
-Data resources for instruction finetuning:s
+Data resources for instruction fine-tuning:s
 
 - In-House: FAQs, Slack…
 - Synthetic: Use a different LLM or templates to convert regular text to conversations. → Alpaca Model
@@ -107,7 +107,7 @@ This is what the model tries to predict at fine-tuning.
 
 ## Data Preparation
 
-“Your model is what your data is”
+“Your model is what your data is.”
 
 Things to consider when creating a dataset:
 
@@ -128,25 +128,25 @@ Preparation steps:
 
 ## Training (Fun Part)
 
-When it comes to regular LLM training, selecting the appropriate model to fine-tune is crucial. It is recommended to begin with around 1 billion parameter models for typical tasks, but in my personal experience, smaller models can be incredibly effective for specific tasks. Therefore, it is important not to be swayed by the notion that bigger is always better in the LLM realm, and to conduct your own research.
+Regarding regular LLM training, selecting the appropriate model to fine-tune is crucial. It is recommended to begin with around 1 billion parameter models for typical tasks, but in my personal experience, smaller models can be incredibly effective for specific tasks. Therefore, it is essential not to be swayed by the notion that bigger is always better in the LLM realm and to conduct research.
 
-In addition, there are specific techniques such as LoRA that can enhance the efficiency of your training. If you have limited computing resources, you can incorporate one of these methods into your fine-tuning process. By doing so, you can substantially reduce the amount of computing power needed without compromising performance.
+In addition, there are specific techniques, such as LoRA, that can enhance the efficiency of your training. You can incorporate one of these methods into your fine-tuning process if you have limited computing resources. By doing so, you can substantially reduce the amount of computing power needed without compromising performance.
 
 
 ## Evaluation
 
-The evaluation process marks the start of the fine-tuning process, rather than the conclusion. The objective is to continuously enhance our model by conducting **error analysis** after each iteration. We assess our current model (at first the base model), identifying errors and recurring issues. In the subsequent iteration, we determine if these issues have been resolved. If not, we incorporate additional targeted data to address these.
+The evaluation process marks the start of the fine-tuning process rather than the conclusion. The objective is to continuously enhancing our model by conducting **error analysis** after each iteration. We assess our current model (at first, the base model), identifying errors and recurring issues. In the subsequent iteration, we determine if these issues have been resolved. If not, we incorporate additional targeted data to address these.
 
-Some of the common issues might be misspellings, too long responses, repetitions, in-consistency, hallucination.
+Common issues might be misspellings, long responses, repetitions, in-consistency, or hallucination.
 
 There are different formats of evaluation:
 
 - Human evaluation (most reliable)
 - Test suits  → Rules for checking certain conditions.
-		 stop words, exact match, consistency, similarity check by embeddings, etc.
+		 Stop words, exact match, consistency, similarity check by embeddings, etc.
 - ELO comparison → A/B test between multiple models.
 
-We can also use common benchmarks datasets to compare out system:
+We can also use common benchmark datasets to compare our system:
 
 - ARC → School questions
 - HellaSwag → Common sense
