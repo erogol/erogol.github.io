@@ -596,20 +596,27 @@ def greet(name):
                     // Prompt the user for input
                     var instruction = prompt("Ask AI:");
 
-                    // Do something with the user's instruction (you can send it to your AI model)
-                    const ai_response = await userInstruction(instruction, selectedText);
+                    if (instruction === null) {
+                        // User clicked cancel
+                        console.log("User cancelled the prompt");
+                    } else {
+                        // User entered an instruction
+                        console.log("User entered instruction:", instruction);
+                        console.log("Selected text:", selectedText);
+                        // Do something with the user's instruction (you can send it to your AI model)
+                        const ai_response = await userInstruction(instruction, selectedText);
 
-                    console.log(ai_response);
-                    if (ai_response) {
-                        if (selectedText) {
-                            const updatedContent = simplemde.value().replace(selectedText, ai_response);
-                            simplemde.value(updatedContent);
-                        }
-                        else {
-                            insertTextAtCursor(ai_response);
+                        console.log(ai_response);
+                        if (ai_response) {
+                            if (selectedText) {
+                                const updatedContent = simplemde.value().replace(selectedText, ai_response);
+                                simplemde.value(updatedContent);
+                            }
+                            else {
+                                insertTextAtCursor(ai_response);
+                            }
                         }
                     }
-
                     if (savedScrollInfo) {
                         simplemde.codemirror.scrollTo(savedScrollInfo.left, savedScrollInfo.top);
                         savedScrollInfo = null; // Reset after restoration

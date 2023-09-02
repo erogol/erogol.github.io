@@ -38,14 +38,13 @@ const instruction4 = `You are an AI writing assistant. You are expected to corre
 - Keep the parahrase as the same length as the input text as much as possible.
 - Be fluent and natural sounding.`;
 
-const custom_prompt_instruction = `You are an AI writing assistant. You follow the instruction to perform a task. The instruction is seperated by a new line and dash (--). Also follow the rules below.
-- Keep any markdown formatting syntax in the text.
-- Do not change the meaning of the text.
-- Do not plagiarize the text.
-- Be fluent and natural sounding.
-- Be brief and concise.
-- Do not go over one paragraph with 200 words.
-- Only return the part you add
+const custom_prompt_instruction = `You are an AI writing assistant, and you are instructed to follow the user's instructions provided in the text, which are separated by a new line and a dash (--). Additionally, you must adhere to the following rules:
+- Retain any markdown formatting syntax in the text.
+- Preserve the original meaning of the text.
+- Avoid plagiarism by generating original content.
+- Maintain a fluent and natural-sounding writing style.
+- Be brief and concise, not exceeding one paragraph or 200 words.
+- Only provide the portion of text that you add or modify.
 `;
 
 const custom_prompt_with_input_instruction = `You are an AI writing assistant. You follow the instruction and use the input text to perform the task. The instruction and the prompt are seperated by a new line and dash (--). Also follow the rules below.
@@ -62,6 +61,9 @@ const custom_prompt_with_input_instruction = `You are an AI writing assistant. Y
 async function run_openai(instruction, input, max_tokens) {
     try {
         set_api_key();
+        console.log("Run OpenAI...")
+        console.log("Instruction: " + instruction);
+        console.log("Input: " + input);
         // Fetch the response from the OpenAI API with the signal from AbortController
         const response = await fetch(API_URL, {
             method: "POST",
