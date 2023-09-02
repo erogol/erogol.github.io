@@ -35,19 +35,22 @@ Learn the data rather than just accessing it
 ## Benefits
 
 - Performance
-    - Reduced Hallucination: Reliable outputs tuned for the task.
-		- Consistency: Maintaining consistency by responding uniformly to the same input.
-		- Reduce unwanted information: Pre-trained models tend to be verbose and repetitive.
+    - **Reduced Hallucination:** Reliable outputs tuned for the task.
+    - **Consistency:** Maintaining consistency by responding uniformly to the same input.
+    - **Reduce unwanted information:** Pre-trained models tend to be verbose and repetitive.
+
 - Privacy
-    - Keep your data in-house: It is not okay to share your private data with a 3rd party ever-time in a prompt.
+    - **Keep your data in-house:** It is not okay to share your private data with a 3rd party every time in a prompt.
+
 - Cost
-    - Lower cost per request: Prompting LLM services are expensive, especially when combined with vector search and contextual information.
-    - Control: For an enterprise, it is important to control technology to be adaptive and flexible enough when the things change.
-    - Transparency: If you know what goes in, what comes out and how things work , you can act more efficiently and take better decisions.
+    - **Lower cost per request:** Prompting LLM services is expensive, especially when combined with vector search and contextual information.
+    - **Control:** For an enterprise, it is important to control technology to be adaptive and flexible enough when things change.
+    - **Transparency:** If you know what goes in, what comes out, and how things work, you can act more efficiently and make better decisions.
+
 - Reliability
-    - Uptime: It is easier to meet the uptime requirements of a model you own than relying on a external service.
-    - Latency: Fine-tuned models are more efficient and you can optimize it according to your needs.
-    - Moderation: You can easily feature flag ore moderate inputs/outputs of your models.
+    - **Uptime:** It is easier to meet the uptime requirements of a model you own than relying on an external service.
+    - **Latency:** Fine-tuned models are more efficient and you can optimize them according to your needs.
+    - **Moderation:** You can easily feature flag or moderate inputs/outputs of your models.
 
 ## Pretraining
 
