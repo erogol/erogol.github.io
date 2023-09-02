@@ -75,15 +75,11 @@ Learn the data rather than just accessing it
 - Compare with the pre-trained LLM.
 - Repeat until you get satisfying results.
 
-
-
 ## Instruction Finetuning
 
-A specific way of fine-tuning that teaches models to follow instructions like a chatbot.
+A specific way of fine-tuning that teaches models to follow instructions like a chatbot. It gave ChatGPT the ability to chat.
 
-It gave ChatGPT the ability to chat.
-
-Data resources
+Data resources for instruction finetuning:s
 
 - In-House: FAQs, Slack…
 - Synthetic: Use a different LLM or templates to convert regular text to conversations. → Alpaca Model
@@ -93,7 +89,6 @@ Data resources
     - Response: Model’s answer based on the input and the instruction.
 
 This is what the model tries to predict at fine-tuning.
-
 
     ```python
     sample = """
