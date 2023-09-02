@@ -341,7 +341,9 @@ def greet(name):
                         <li>Correct Spelling: Corrects the spelling of the selected text.</li>
                     </ul>
 
-                    <p>The editor is equipped with a convenient toolbar that becomes visible when you hover your mouse at the top. In addition to the classic editor options, it also offers a few additional features:</p>
+                    <p>The editor is equipped with a convenient toolbar that becomes visible when you hover your mouse
+                        at the top. In addition to the classic editor options, it also offers a few additional features:
+                    </p>
 
                     <ul>
                         <li>Preview: Toggle the preview pane.</li>
@@ -355,7 +357,8 @@ def greet(name):
                     <h2>Notes</h2>
                     <ul>
                         <li>If no text selected, 🤖 will try to update the last paragraph.</li>
-                        <li>The editor automatically saves the current content to local storage every minute, allowing you to conveniently resume your work later.</li>
+                        <li>The editor automatically saves the current content to local storage every minute, allowing
+                            you to conveniently resume your work later.</li>
                         <li>ME-AI does not retain any of your data on a server since there is no server in place.</li>
                     </ul>
                 </div>
@@ -568,6 +571,46 @@ def greet(name):
                 helpWindow.removeChild(closeButton);
             });
 
+            // Listen for Ctrl+Shift+P (Cmd+Shift+P on Mac)
+            document.addEventListener("keydown", async function (e) {
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "p") {
+
+                    // Set the input text
+                    var selectedText = simplemde.codemirror.getSelection();
+
+                    // Keep the scroll position the same after updating the text
+                    savedScrollInfo = simplemde.codemirror.getScrollInfo();
+                    previousText = simplemde.codemirror.getValue();
+
+                    showLoadingOverlay();
+
+                    // Prompt the user for input
+                    var instruction = prompt("Ask AI:");
+
+                    // Do something with the user's instruction (you can send it to your AI model)
+                    const ai_response = await userInstruction(instruction, selectedText);
+
+                    console.log(ai_response);
+                    if (ai_response) {
+                        if (selectedText) {
+                            const updatedContent = simplemde.value().replace(selectedText, ai_response);
+                            simplemde.value(updatedContent);
+                        }
+                        else {
+                            insertTextAtCursor(ai_response);
+                        }
+                    }
+
+                    if (savedScrollInfo) {
+                        simplemde.codemirror.scrollTo(savedScrollInfo.left, savedScrollInfo.top);
+                        savedScrollInfo = null; // Reset after restoration
+                    }
+                    hideLoadingOverlay();
+                    highlightAddedText();
+                }
+            });
+
+
             contextMenu.addEventListener("click", async function (e) {
                 // Keep the scroll position the same after updating the text
                 var selectedText = simplemde.codemirror.getSelection();
@@ -575,7 +618,6 @@ def greet(name):
 
                 previousText = simplemde.codemirror.getValue();
                 showLoadingOverlay();
-
 
                 if (e.target.id === "autoComplete") {
                     if (selectedText) {
@@ -763,6 +805,15 @@ def greet(name):
                     const updatedContent = simplemde.value().replace(inputText, response);
                     simplemde.value(updatedContent);
                 }
+            }
+
+            // Function to insert text at the cursor position
+            function insertTextAtCursor(text) {
+                var cursorPosition = simplemde.codemirror.getCursor();
+                var currentLine = cursorPosition.line;
+                var currentCh = cursorPosition.ch;
+                var position = { line: currentLine, ch: currentCh };
+                simplemde.codemirror.replaceSelection(text);
             }
 
             // Function to highlight added text
