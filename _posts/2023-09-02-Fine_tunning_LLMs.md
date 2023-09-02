@@ -93,17 +93,17 @@ Data resources for instruction fine-tuning:s
 
 This is what the model tries to predict at fine-tuning.
 
-    ```python
-    sample = """
-    ### Instructions:
-    {instruction}
+```python
+sample = """
+### Instructions:
+{instruction}
 
-    ### Input:
-    {Input}
+### Input:
+{Input}
 
-    ### Response:
-    """
-    ```
+### Response:
+"""
+```
 
 ## Data Preparation
 
