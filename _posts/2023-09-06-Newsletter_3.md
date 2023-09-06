@@ -37,7 +37,7 @@ This work provides an in-depth review of IT literature, covering the general met
 
 Additionally, it includes an analysis of influential factors such as instruction output generation and dataset size. The paper also explores potential pitfalls, criticism, and efforts to address existing limitations.
 
-## Reads & Sees
+## Bookmarks
 📌 [Alternative model architectures to Transformer (Reddit ML Thread)](https://www.reddit.com/r/MachineLearning/comments/164n8iz/discussion_promising_alternatives_to_the_standard/?share_id=zqrMdfCnkRHxvMvEJpXSp&utm_content=2&utm_medium=ios_app&utm_name=ioscss&utm_source=share&utm_term=1)
 
 📌 [Being human](https://ethz.ch/en/news-and-events/eth-news/news/2023/08/being-human.html)
