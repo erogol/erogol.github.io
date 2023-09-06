@@ -39,10 +39,15 @@ Additionally, it includes an analysis of influential factors such as instruction
 
 ## Reads & Sees
 📌 [Alternative model architectures to Transformer (Reddit ML Thread)](https://www.reddit.com/r/MachineLearning/comments/164n8iz/discussion_promising_alternatives_to_the_standard/?share_id=zqrMdfCnkRHxvMvEJpXSp&utm_content=2&utm_medium=ios_app&utm_name=ioscss&utm_source=share&utm_term=1)
+
 📌 [Being human](https://ethz.ch/en/news-and-events/eth-news/news/2023/08/being-human.html)
+
 📌 [FraudGPT](https://cybersecuritynews.com/fraudgpt-new-black-hat-ai-tool/?amp)
+
 🎬 [Podcast with Mustafa Suleyman (Deep Mind's co-founder)](https://www.youtube.com/watch?v=CTxnLsYHWuI)
+
 🎬 [Andrew Ng's Talk "Opportunities in AI"](https://www.youtube.com/watch?v=5p248yoa3oE)
+
 📌 [Can LLMs learn from a single example?](https://www.fast.ai/posts/2023-09-04-learning-jumps/)
 
 ## Open Source
