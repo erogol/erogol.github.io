@@ -8,7 +8,7 @@ minute: 2
 ---
 
 <figure>
-    <img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F31dbd2e8-34b8-48d3-a937-6f763908e28a_1024x1024" width="100%" />
+    <img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Faaf94eec-aabb-413a-b903-38a721abbf42_1024x1024" width="100%" />
     <figcaption>"Smart electric cars in French, Rococo style, classical style, oil on canvas"</figcaption>
 </figure>
 
