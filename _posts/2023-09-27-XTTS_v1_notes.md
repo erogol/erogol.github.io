@@ -1,6 +1,6 @@
 ---
 layout: post
-title: XTTSv1 - technical notes
+title: XTTS-v1 technical notes
 description: XTTS technical details for model, training and performance.
 summary: XTTS technical details for model, training and performance.
 tags: machine-learning TTS coqui.ai open-source XTTS
@@ -98,7 +98,7 @@ tts.tts_to_file(text="It took me quite a long time to develop a voice, and now t
 
 
 ## Acknowledgements
-Big thanks to the Coqui team and the community for their work and support. James Betker for [Tortoise](https://github.com/neonbjb/tortoise-tts) that showed all the
+Big thanks to the Coqui team and the community for their work and support. James Betker for [Tortoise](https://github.com/neonbjb/tortoise-tts) that showed the
 the right way to do TTS. The HuggingFace team for their amazing work and support with the XTTS release. All the people and organizations behind public voice datasets, especially Common Voice.
 
 <br>
