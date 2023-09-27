@@ -7,10 +7,18 @@ tags: machine-learning TTS coqui.ai open-source XTTS
 minute: 5
 ---
 
+
+<figure>
+    <img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffe629b36-9239-401c-8e4c-dbff981f670d_512x512" width="100%" />
+    <figcaption>"Smart electric cars in French, Rococo style, classical style, oil on canvas"</figcaption>
+</figure>
+
 # XTTS v1 technical notes
 
-XTTS Demo: https://huggingface.co/spaces/coqui/xtts
-XTTS Code: https://github.com/coqui-ai/TTS
+
+🎮 [XTTS Demo](https://huggingface.co/spaces/coqui/xtts)<br>
+👨‍💻 [XTTS Code](https://github.com/coqui-ai/TTS)<br>
+💬 [![Dicord](https://img.shields.io/discord/1037326658807533628?color=%239B59B6&label=chat%20on%20discord)](https://discord.gg/5eXr5seRrv)
 
 XTTS is a versatile Text-to-speech model that offers natural-sounding voices in 13 different languages. One of its unique features is the ability to clone voices across languages using just a 3-second audio sample.
 
@@ -20,7 +28,7 @@ TTS introduces innovative techniques that simplify cross-language voice cloning 
 
 ## XTTS Architecture
 
-XTTS builds upon the recent advancements in autoregressive models, such as Tortoise, Vall-E, and Soundstorm, which are based on language models trained on discrete audio representations. XTTS utilizes a VQ-VAE model to discretize the audio into audio tokens. Subsequently, it employs a GPT model to predict these audio tokens based on the input text and speaker latents. The output of the GPT model is passed on to a decoder model that outputs the audio signal. We employ the Tortoise methodology for XTTS-v1, which combines a diffusion model and UnivNet vocoder. This approach involves using the diffusion model to transform the GPT outputs into spectrogram frames, and then utilizing UnivNet to generate the ultimate audio signal.
+XTTS builds upon the recent advancements in autoregressive models, such as Tortoise, Vall-E, and Soundstorm, which are based on language models trained on discrete audio representations. XTTS utilizes a VQ-VAE model to discretize the audio into audio tokens. Subsequently, it employs a GPT model to predict these audio tokens based on the input text and speaker latents. The speaker latents are computed by a stack of self-attention layers. The output of the GPT model is passed on to a decoder model that outputs the audio signal. We employ the Tortoise methodology for XTTS-v1, which combines a diffusion model and UnivNet vocoder. This approach involves using the diffusion model to transform the GPT outputs into spectrogram frames, and then utilizing UnivNet to generate the ultimate audio signal.
 
 ## XTTS training
 
@@ -55,13 +63,44 @@ It is important to mention that the use of language tokens is essential in reduc
 
 ## Performance Notes
 
+- The model outputs 24khz audio.
 - It is often difficult to pronounce acronyms correctly. It is more likely to be successful if you separate the individual characters by space.
 - Numbers are better handled by converting them to text.
-- Sometimes the reference speaker audio might be copied in the output, especially when the input text is the same or very similar to the transcript of the reference.
+- Sometimes the reference speaker audio might be copied in the output, especially when the input text is the same or very similar to the text of the reference.
 - Output quality is strongly tied to the reference audio quality. A good reference is around 4-6 secs, clean from anything but speech.
 - Using a cartoonish voice for audio references can potentially cause the model to fail, as these references stand out as outliers in relation to the training dataset.
+- Model context is limited to 604 audio and 402 text tokens. 604 audio tokens correspond to ~12 seconds of audio. We recommend keeping the input text under 250 characters.
+- We recommend using a GPU with at least 8GB of memory.
 
-<br>
+## Future plans
+
+- Our team has plans to make the training and fine-tuning code publicly available in the future. However, we don't have a specific timeline for this release at the moment.
+- In the next update, we will introduce streaming support with a latency of less than 0.6 seconds.
+- We are actively expanding the range of languages supported by our system. If you're interested in contributing, please don't hesitate to contact us. The upcoming release is likely to include Japanese, Korean, and Hungarian.
+- We are currently developing YTTS (next generation XTTS) to improve the speed and efficiency of inference and training. While we don't have a timetable, we welcome any assistance you may be able to provide..
+
+## Using XTTS
+
+To start using XTTS, all you need to do is pip install TTS.
+
+Here is a sample Python code. Please see [the docs](https://tts.readthedocs.io/en/latest/models/xtts.html) for more details.
+
+```python
+from TTS.api import TTS
+tts = TTS("tts_models/multilingual/multi-dataset/xtts_v1", gpu=True)
+
+python# generate speech by cloning a voice using default settings
+tts.tts_to_file(text="It took me quite a long time to develop a voice, and now that I have it I'm not going to be silent.",
+                file_path="output.wav",
+                speaker_wav="/path/to/target/speaker.wav",
+                language="en")
+```
+
+
+## Acknowledgements
+Big thanks to the Coqui team and the community for their work and support. James Betker for [Tortoise](https://github.com/neonbjb/tortoise-tts) that showed all the
+the right way to do TTS. The HuggingFace team for their amazing work and support with the XTTS release. All the people and organizations behind public voice datasets, especially Common Voice.
+
 <br>
 <br>
 
