@@ -158,7 +158,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #dddddd42;
+            background: rgba(0, 0, 0, 0.7);
             /* Light gray */
             /* Semi-transparent white */
             display: none;
@@ -226,7 +226,7 @@
             /* Orange link color */
         }
 
-        #closeButton {
+        .closeButton {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -240,6 +240,69 @@
         #closeButton:hover {
             color: #333;
             /* Dark text color on hover */
+        }
+
+        #promptOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        #promptDialog {
+            background: white;
+            padding: 5px;
+            border-radius: 5px;
+            text-align: center;
+            position: relative;
+            background-color: #333;
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            /* Adjust the maximum width as needed */
+            width: 90%;
+            /* Set a specific width or percentage */
+        }
+
+        #promptText {
+            width: calc(100% - 16px);
+            font-size: 16px;
+            resize: none;
+            overflow: hidden;
+            background-color: #555;
+            color: #ddd;
+            font-family: Arial, sans-serif;
+            text-align: left;
+            margin: 0 auto;
+            background: white;
+            padding: 5px;
+            position: relative;
+            background-color: #333;
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            width: 90%;
+            border: 0px;
+            border-radius: 5px;
+            line-height: 2;
+            margin: 0 auto;
+            padding: 20px;
+            height: auto;
+        }
+
+        /* # disable border on focus */
+        #promptText:focus {
+            outline: none;
+        }
+
+        #promptIcon {
+            position: relative;
+            top: 10px;
+            left: 10px;
         }
     </style>
 </head>
@@ -312,6 +375,11 @@ def greet(name):
     print(f"Hello, {name}!")
 
             </textarea>
+            <div id="promptOverlay">
+                <!-- <div id="promptIcon">✨</div> -->
+                <textarea id="promptText"
+                    placeholder="✨ Ask AI to write anything... e.g. 'Write me a blogpost.'"></textarea>
+            </div>
             <div class="context-menu" id="contextMenu">
                 <div id="autoComplete">Autocomplete</div>
                 <div id="makeFluent">Make it Fluent</div>
@@ -322,7 +390,7 @@ def greet(name):
                 <div class="text-area-loading-spinner"></div>
             </div>
             <div id="help-window">
-                <div id="closeButton">X</div>
+                <div class="closeButton" id="helpCloseBtn">X</div>
                 <h2>🤖 ME-AI</h2>
                 <p>
                     aka Markdown editor with AI.<br><br>
@@ -382,11 +450,13 @@ def greet(name):
         document.addEventListener("DOMContentLoaded", function () {
             var contextMenu = document.getElementById("contextMenu");
             var editorDiv = document.querySelector(".editor");
+            var promptForum = document.getElementById("promptOverlay");
             var simplemde;
             var savedScrollInfo = null;
             var cursorPosition = null;
             var loadingOverlay = document.getElementById("loadingOverlay"); // Get the loading overlay
             var helpWindow = document.getElementById("help-window");
+            var helpWindowCloseBtn = document.getElementById("helpCloseBtn");
             var previousText = ""; // Store the previous text for highlighting
 
             var saveAction = function (editor) {
@@ -469,7 +539,7 @@ def greet(name):
             var helpAction = function (editor) {
                 // Show a help dialog
                 helpWindow.style.display = "block";
-                closeButton = document.createElement("div");
+                helpWindowCloseBtn = document.createElement("div");
             };
 
             var resetApiKeyAction = function (editor) {
@@ -575,26 +645,136 @@ def greet(name):
             });
 
             // Close the help window when the close button is clicked
-            closeButton.addEventListener("click", function () {
+            helpWindowCloseBtn.addEventListener("click", function () {
                 helpWindow.style.display = "none";
-                helpWindow.removeChild(closeButton);
+                helpWindow.removeChild(helpWindowCloseBtn);
             });
 
-            // Listen for Ctrl+Shift+P (Cmd+Shift+P on Mac)
-            document.addEventListener("keydown", async function (e) {
-                if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "p") {
 
-                    // Set the input text
-                    var selectedText = simplemde.codemirror.getSelection();
+            /**************************************************************
+             * UTILS
+             * ***********************************************************/
 
-                    // Keep the scroll position the same after updating the text
-                    savedScrollInfo = simplemde.codemirror.getScrollInfo();
-                    previousText = simplemde.codemirror.getValue();
+
+            // Function to show the loading overlay
+            function showLoadingOverlay() {
+                loadingOverlay.style.display = "flex";
+
+                // Set the loading spinner off with a delay
+                setTimeout(function () {
+                    loadingOverlay.style.opacity = 1;
+                }, 100);
+            }
+
+            // Function to hide the loading overlay
+            function hideLoadingOverlay() {
+                loadingOverlay.style.display = "none";
+            }
+
+            // Function to get the paragraph where the cursor is located
+            function getCurrentParagraph() {
+                cursorPosition = simplemde.codemirror.getCursor();
+                var lineNumber = cursorPosition.line;
+                var content = simplemde.value();
+                var lines = content.split("\n");
+
+                var currentParagraph = "";
+
+                for (var i = lineNumber; i >= 0; i--) {
+                    if (lines[i].trim() === "") {
+                        break;
+                    } else if (lines[i].startsWith("#")) {
+                        currentParagraph = lines[i] + "\n" + currentParagraph;
+                        break;
+                    } else if (/^(\*|\-|\+|\d+\.)\s/.test(lines[i])) {
+                        currentParagraph = lines[i] + "\n" + currentParagraph;
+                        break;
+                    } else {
+                        currentParagraph = lines[i] + "\n" + currentParagraph;
+                    }
+                }
+
+                return currentParagraph.trim();
+            }
+
+
+            /**************************************************************
+             * Prompt Dialog
+             * ***********************************************************/
+
+
+            function openPromptDialog() {
+                document.getElementById('promptOverlay').style.display = 'flex';
+
+                // set the cursor to the prompt text
+                document.getElementById('promptText').focus();
+
+                const textarea = document.getElementById('promptText');
+                textarea.style.height = 'auto';
+                textarea.style.height = textarea.scrollHeight + 'px';
+            }
+
+            function closePromptDialog() {
+                document.getElementById('promptOverlay').style.display = 'none';
+
+                // if there is no text except ✨ in the field then clear the field
+                if (document.getElementById('promptText').value === '✨ ') {
+                    document.getElementById('promptText').value = '';
+                }
+            }
+
+            // close prompt dialog when user clicks outside of the dialog or press ESC
+            promptForum.addEventListener("click", function (e) {
+                if (!promptForum.contains(e.target)) {
+                    closePromptDialog();
+                }
+            });
+
+            document.addEventListener("keydown", function (e) {
+                if (e.key === "Escape") {
+                    closePromptDialog();
+                }
+            });
+
+            function resizeTextarea() {
+                const textarea = document.getElementById('promptText');
+                textarea.style.height = 'auto';
+                textarea.style.height = textarea.scrollHeight + 'px';
+
+                // prepend ✨ and a space to the prompt text as the first character if it is not already there
+                if (textarea.value[0] !== '✨') {
+                    textarea.value = '✨ ' + textarea.value;
+                }
+            }
+
+            promptText.addEventListener('input', resizeTextarea);
+
+
+            // get the entered text from the prompt dialog when it is active and pressed enter
+            document.getElementById('promptText').addEventListener("keydown", async function (e) {
+                if (event.key === 'Enter' && event.shiftKey) {
+                    // If Shift + Enter is pressed, insert a new line character
+                    const cursorPosition = promptText.selectionStart;
+                    const textBeforeCursor = promptText.value.substring(0, cursorPosition);
+                    const textAfterCursor = promptText.value.substring(cursorPosition);
+
+                    promptText.value = textBeforeCursor + '\n' + textAfterCursor;
+
+                    // Prevent the default behavior of Enter key (submitting the form in a textarea)
+                    event.preventDefault();
+                }
+                else if (e.key === "Enter") {
+                    event.preventDefault();
+
+                    instruction = document.getElementById('promptText').value;
+
+                    // remove ✨ from the prompt text
+                    instruction = instruction.replace('✨ ', '');
 
                     showLoadingOverlay();
 
-                    // Prompt the user for input
-                    var instruction = prompt("Ask AI:");
+                    // Set the input text
+                    var selectedText = simplemde.codemirror.getSelection();
 
                     if (instruction === null) {
                         // User clicked cancel
@@ -623,8 +803,29 @@ def greet(name):
                     }
                     hideLoadingOverlay();
                     highlightAddedText();
+                    closePromptDialog();
+
+                    // Keep the scroll position the same after updating the text
+                    savedScrollInfo = simplemde.codemirror.getScrollInfo();
+                    previousText = simplemde.codemirror.getValue();
+
+                    // pass focus to the editor
+                    simplemde.codemirror.focus();
                 }
             });
+
+            // Listen for Ctrl+Shift+P (Cmd+Shift+P on Mac)
+            document.addEventListener("keydown", function (e) {
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "p") {
+                    // show prompt forum
+                    openPromptDialog();
+                }
+            });
+
+
+            /**************************************************************
+             * CONTEXT MENU
+             * ***********************************************************/
 
 
             contextMenu.addEventListener("click", async function (e) {
@@ -689,41 +890,7 @@ def greet(name):
                 highlightAddedText();
             });
 
-            // Function to show the loading overlay
-            function showLoadingOverlay() {
-                loadingOverlay.style.display = "flex";
-            }
 
-            // Function to hide the loading overlay
-            function hideLoadingOverlay() {
-                loadingOverlay.style.display = "none";
-            }
-
-            // Function to get the paragraph where the cursor is located
-            function getCurrentParagraph() {
-                cursorPosition = simplemde.codemirror.getCursor();
-                var lineNumber = cursorPosition.line;
-                var content = simplemde.value();
-                var lines = content.split("\n");
-
-                var currentParagraph = "";
-
-                for (var i = lineNumber; i >= 0; i--) {
-                    if (lines[i].trim() === "") {
-                        break;
-                    } else if (lines[i].startsWith("#")) {
-                        currentParagraph = lines[i] + "\n" + currentParagraph;
-                        break;
-                    } else if (/^(\*|\-|\+|\d+\.)\s/.test(lines[i])) {
-                        currentParagraph = lines[i] + "\n" + currentParagraph;
-                        break;
-                    } else {
-                        currentParagraph = lines[i] + "\n" + currentParagraph;
-                    }
-                }
-
-                return currentParagraph.trim();
-            }
             // Function to auto complete the last paragraph
             // Function to auto-complete text
             async function autoCompleteText(inputText) {
