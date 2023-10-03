@@ -192,12 +192,15 @@
         /* Help window styles */
         #help-window {
             position: absolute;
+            width: 70%;
+            margin: 50px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             top: 50px;
             /* Adjust the top position as needed */
             left: 50%;
             /* Center horizontally */
             transform: translateX(-50%);
-            width: 40%;
             /* Adjust the width as needed */
             background-color: #333;
             /* Light gray background */
@@ -400,7 +403,7 @@ def greet(name):
                 <div>
                     <p>To access the AI options, simply right-click anywhere in the editor.</p>
 
-                    <h3>Menu</h3>
+                    <h3>AI Command Menu</h3>
                     <p>The menu will then appear, providing you with a range of choices:</p>
 
                     <ul>
@@ -410,7 +413,7 @@ def greet(name):
                         <li>Correct Spelling: Corrects the spelling of the selected text.</li>
                     </ul>
 
-                    <h3>Command Prompt</h3>
+                    <h3>Ask AI to do anything</h3>
                     <ol>
                         <li>(Optional) Select a text.</li>
                         <li>Press <strong>Ctrl+Shift+P</strong></li>
@@ -436,7 +439,8 @@ def greet(name):
                         <li>If no text selected, 🤖 will try to update the last paragraph.</li>
                         <li>The editor automatically saves the current content to local storage every minute, allowing
                             you to conveniently resume your work later.</li>
-                        <li>ME-AI does not retain any of your data on a server since there is no server in place.</li>
+                        <li>🤖 is a fully local. There is no server in the background.</li>
+                        <li>ME-AI does not retain any of your data including your API key.</li>
                     </ul>
                 </div>
                 </p>
@@ -775,6 +779,10 @@ def greet(name):
 
                     // Set the input text
                     var selectedText = simplemde.codemirror.getSelection();
+                    previousText = simplemde.codemirror.getValue();
+
+                    // Keep the scroll position the same after updating the text
+                    savedScrollInfo = simplemde.codemirror.getScrollInfo();
 
                     if (instruction === null) {
                         // User clicked cancel
@@ -804,10 +812,6 @@ def greet(name):
                     hideLoadingOverlay();
                     highlightAddedText();
                     closePromptDialog();
-
-                    // Keep the scroll position the same after updating the text
-                    savedScrollInfo = simplemde.codemirror.getScrollInfo();
-                    previousText = simplemde.codemirror.getValue();
 
                     // pass focus to the editor
                     simplemde.codemirror.focus();
