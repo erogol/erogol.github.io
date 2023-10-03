@@ -37,24 +37,23 @@ https://github.com/BlinkDL/ChatRWKV/blob/main/RWKV_in_150_lines.py<br>
 
 RWKV is a new approach to RNN models that combines the advantages of RNNs and Transformers while mitigating their known limitations. It introduces several key strategies that allow it to capture locality and long-range dependencies, while addressing limitations of current architectures. RWKV offers a promising and viable solution for handling tasks involving large-scale models with billions of parameters, exhibiting competitive performance at a fraction of the computational cost. If you're interested in improving the memory and computational complexity of transformers in natural language processing tasks, RWKV is definitely worth exploring.
 
-<figure>
-  <img src="https://cdn.discordapp.com/attachments/1158141030080716891/1158150056478789703/image.png?ex=651b32ca&is=6519e14a&hm=4781857cc520c0d1abef45ae00bccbf9cf2fbd492694410c9b031dbad689d279&" alt="Image">
+<figure style="text-align:center;">
+    <img src="https://cdn.discordapp.com/attachments/1158141030080716891/1158150056478789703/image.png?ex=651b32ca&is=6519e14a&hm=4781857cc520c0d1abef45ae00bccbf9cf2fbd492694410c9b031dbad689d279&" alt="Image" width="75%" height="75%">
 </figure>
-
 RWKV is designed to combine the strengths of RNNs and Transformers while mitigating their known limitations. Compared to RNNs, RWKV offers more efficient parallelizable training and better performance on long-range dependencies by not relying on a single hidden unit to pass the context between different time steps.
 
 Compared to Transformers, RWKV offers linear attention and constant computational and memory complexity during inference, making it more efficient for large-scale models.
 
 There are two main components of a RWKV block. Time-mixing and channel-mixing. Time-mixing works by linearly interpolating between the current input and the previous time step input, which naturally aggregates and gates information in the input channels. The time-mixing block is composed of three equations that compute the values of r, k, and v at each time step, which are then used to compute the WKV computation that plays the role of attention in Transformers. In essence, as time passes and t becomes larger, the vector o_t relies on a  historical record which is indicated by the accumulation of a greater number of terms.
 
-<figure>
-  <img src="https://cdn.discordapp.com/attachments/1158141030080716891/1158150244828188702/image.png?ex=651b32f7&is=6519e177&hm=b4fff3b20f4c38fc5a1d7be4dff01277764b94e74ff1b440087d89e6808988a9" alt="Image">
+<figure style="text-align:center;">
+  <img src="https://cdn.discordapp.com/attachments/1158141030080716891/1158150244828188702/image.png?ex=651b32f7&is=6519e177&hm=b4fff3b20f4c38fc5a1d7be4dff01277764b94e74ff1b440087d89e6808988a9" alt="Image" width="75%" height="75%">
 </figure>
 
 Channel-mixing is another key component of the RWKV architecture that helps it capture locality in sequential data. It works by computing the values of r, k, and o at each time step, which are then used to compute the final output vector. The channel-mixing block is composed of three equations that compute the values of r, k, and o at each time step. The output vector is computed by taking the sigmoid of the receptance r and using it as a "forget gate" to eliminate unnecessary historical information. The final output vector is then computed by multiplying the sigmoid of r with the result of a max pooling operation on k, followed by a squared ReLU activation.
 
-<figure>
-  <img src="https://cdn.discordapp.com/attachments/1158141030080716891/1158150324482211981/image.png?ex=651b330a&amp;is=6519e18a&amp;hm=a27f2cb37111f256b78dfb8b1a1946362f1bc847de4b93e196c57c1807db2ed7&amp;" alt="Image">
+<figure style="text-align:center;">
+    <img src="https://cdn.discordapp.com/attachments/1158141030080716891/1158150324482211981/image.png?ex=651b330a&amp;is=6519e18a&amp;hm=a27f2cb37111f256b78dfb8b1a1946362f1bc847de4b93e196c57c1807db2ed7&amp;" alt="Image" width="75%" height="75%">
 </figure>
 
 RWKV comes with certain limitations  RWKV may have performance limitations on tasks that require recalling information over very long contexts due to relaying on a limited vector between time steps as in RNNs as opposed to Transformers having access to all the information at every step by the attention mechanism. One limitation of RWKV is that prompt engineering has become more significant compared to traditional Transformer models. In the RWKV framework, the linear attention mechanism restricts the extent to which prompt information is passed on to the model's continuation. It is also emprically shown that "When the prompts were adjusted from the ones used for GPT to more suitable for RWKV, the F1 measure performance increased even from 44.2% to 74.8%."
