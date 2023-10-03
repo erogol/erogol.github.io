@@ -208,9 +208,40 @@ When compared to the other Transformer alternatives RetNet outperforms all the o
   <figcaption>Comparison with the other models.</figcaption>
 </figure>
 
+<br>
 ## Longnet
-https://arxiv.org/pdf/2307.02486.pdf
-https://github.com/microsoft/torchscale
+
+Time: O(Td)<br>
+Space: O(T/r log T/r d) s.t. r is the attention dilation rate <br>
+
+Paper: https://arxiv.org/pdf/2307.02486.pdf <br>
+Code: https://github.com/microsoft/torchscale <br>
+
+LONGNET is a variant of the Transformer model that tackles the issue of scaling sequence length in large language models. It can handle sequences with over **1 billion tokens** while maintaining good performance on shorter sequences. This is accomplished through dilated attention, which enhances the model's ability to attend to distant tokens. LONGNET has advantages such as linear computation complexity, the capability to serve as a distributed trainer for long sequences, and seamless integration with existing Transformer-based optimization. Experimental results confirm its effectiveness on long-sequence modeling as well as general language tasks.
+
+
+<figure>
+  <img src="https://cdn.discordapp.com/attachments/1158141030080716891/1158764016307556372/image.png?ex=651d6e96&is=651c1d16&hm=677a5c15b30c83014def640efb5341424801680255ce60bfedd2baf973c24a14" alt="Image">
+</figure>
+
+In order to simplify the self-attention layers, LONGNET utilizes dilated attention. This approach involves dividing the input sequence into segments and dilating each segment at a specific rate. By doing so, the model is able to leverage different segment and dilation rates to improve its modeling abilities. The outputs of each segment size and dilation rate combination are then combined through a weighted sum. These weights are determined based on the softmax denominators of each output. This combination of segments and dilation strikes a balance between considering the global context and maintaining efficiency, as dilation serves as an efficient approximation of the attention matrix.
+
+<figure>
+  <img src="https://cdn.discordapp.com/attachments/1158141030080716891/1158766857587806258/image.png?ex=651d713b&is=651c1fbb&hm=40fa139299585deb1af9fb02e23c05007dea236811e3ce34ea5414a81ffe175a&" alt="Image Description">
+</figure>
+
+There are two additional techniques that can be employed. One of them, called LONGNET, incorporates varying dilation rates in each attention head to introduce more diversity. This technique also gradually increases the segment lengths and dilation rates in successive layers, allowing for the processing of extremely long input sequences.
+
+Training LONGNET for 1 billion tokens requires distributed training. Due to segment nature, any long text can be segmented and those segments can be distributed on different GPUs and processed in-parallel with a constant communication overhead.
+
+For testing the model, they used the Stack dataset, a source code collection with over 300 programming languages. They showed that LONGNET outperforms a vanilla Transformer model by a large margin in final perplexity and computation. They were able to train LONGNET with 32k context size and the Transformer only 16k.
+
+<figure>
+    <img src="https://cdn.discordapp.com/attachments/1158141030080716891/1158774319560798238/image.png?ex=651d782e&is=651c26ae&hm=1d47402aaab7e0ee804e53e76179c11d03a48e654cb30bce1dde0c3b91f7a051&" alt="Image">
+</figure>
+
+**My 2 cents:** Consider using LONGNET when you need to process very long context or stream outputs.
+
 
 
 ## MegaByte
