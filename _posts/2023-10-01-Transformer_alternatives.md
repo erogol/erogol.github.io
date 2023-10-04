@@ -243,27 +243,63 @@ For testing the model, they used the Stack dataset, a source code collection wit
 
 
 
+<br>
 ## MegaByte
-https://arxiv.org/abs/2305.07185
-https://github.com/lucidrains/MEGABYTE-pytorch
+Time: O(T ^ (4/3)  d)
+Space:
+
+Paper: https://arxiv.org/abs/2305.07185<br>
+Code: https://github.com/lucidrains/MEGABYTE-pytorch<br>
+
+<figure>
+  <img src="https://cdn.discordapp.com/attachments/1158141030080716891/1159125345593737246/image.png?ex=651ebf19&is=651d6d99&hm=987d8fe538501b0d3970b50846dfa7f154a721edbf771dac74f8a9da7708675c&" alt="image">
+</figure>
+
+MEGABYTE is an architecture for decoders that makes it possible to model sequences with over one million bytes in a differentiable way. It does this by dividing sequences into patches and using a local submodel within each patch, as well as a global model between patches. This allows for sub-quadratic self-attention, larger feedforward layers without increasing computational cost, and enhanced parallelism while decoding. Consequently, MEGABYTE delivers enhanced performance at a reduced expense for both training and generation.
+
+MEGABYTES offers several advantages, including sub-quadratic self-attention, pre-patch feed forward layers, and parallel decoding. The sub-quadratic self-attention is achieved by dividing the input into smaller "patches," which helps to reduce the computational burden of self-attention. This reduces the self-attention cost to `O(T^(4/3) d)`.
+
+It's important to note that in a Transformer, the feedforward layers consume about 98% of the FLOPs. MEGABYTES addresses this issue by replacing multiple passes of these layers with a single pass, utilizing a larger linear layer.
+
+Furthermore, the use of patches also introduces a level of parallelism. As a result, they found that their 1.5B parameter model is 40% faster than a 350M Transformer model.
+
+The MEGABYTE system is composed of three main components. First, there is a patch embedder, which converts the patch sequences into a representation that takes into account the context. Then, there is a large global Transformer that encodes the contextualized inputs. Lastly, there is a smaller transformer model that takes each output from the global model and predicts the output tokens in an auto-regressive manner.
+
+MEGABYTE is applied to language modelling, image modelling, audio modelling. The cool thing is that it is trained by the raw byte values (hence the name). It is compared to PerceiverAR and a Transformer baseline. In all tasks, it outperforms the both and it is also competitive to models that use regular tokenizers.
+
+The ablation analysis reveals that both the local and global models are crucial components of the overall model. The absence of either of these components resulted in a significant decrease in performance.
+
+**My 2 cents:** I find the concept of learning from raw bytes and utilizing multi-stage transformers very intriguing. I believe this approach has the potential to revolutionize language model systems (LLMs) in the future. By eliminating tokenization models, we can bridge the gap between computers and models, paving the way for the development of new generation LLM-based operating systems.
+
+In addition, I am curious about the capability of MegaByte to perform Text-to-Speech (TTS) without discretization, by solely relying on mel-frames or just bytes. The main concept behind this approach is that smaller models can analyze portions of mel-frames, allowing them to replace tokens in discretized models and effectively capture the context. If the paper's description holds true and we can achieve this using bytes, it would be truly remarkable.
+
+**Edit**: Looks like [UniAudio](https://arxiv.org/abs/2310.00704) tried it.
 
 
 
-## Multi-Query Attention
- https://arxiv.org/pdf/1911.02150.pdf
- https://medium.com/@nidhibits224/multi-query-attention-speeding-ai-ad8fa1626b82
+## Honorable Mentions
+### Multi-Query Attention
+Paper: https://arxiv.org/pdf/1911.02150.pdf<br>
+Code:  https://github.com/knotgrass/attention/blob/main/attn/attention.py <br>
+
+Using shared key and value vectors among attention heads to reduce the memory overhead at inference by reduces size of the KV cache.
 
 
-## Linformer
-O(n)
+### Linformer
+Paper: https://arxiv.org/abs/2006.04768v3 <br>
+Code: https://github.com/facebookresearch/fairseq/tree/main/examples/linformer <br>
+
+Linformer is a modified version of the Transformer model that tackles the problem with self-attention in the original model. The linear self-attention is achieved by breaking down the scaled dot-product attention into multiple smaller attentions using linear projections. Together, these operations create a low-rank factorization of the original attention mechanism.
 
 
+## Roformer
+  Paper: https://arxiv.org/abs/2104.09864<br>
+	Code: https://huggingface.co/docs/transformers/model_doc/roformer <br>
 
- ## Roformer
+	"The proposed RoPE encodes absolute positional information with rotation matrix and naturally incorporates explicit relative position dependency in self-attention formulation. Notably, RoPE comes with valuable properties such as flexibility of being expand to any sequence lengths, decaying inter-token dependency with increasing relative distances, and capability of equipping the linear self-attention with relative position encoding"
 
-  https://arxiv.org/abs/2104.09864
 
-	## Monarch Mixer
+## Monarch Mixer
 	https://hazyresearch.stanford.edu/blog/2023-07-25-m2-bert
 
 
@@ -271,20 +307,8 @@ O(n)
 https://arxiv.org/pdf/2110.13711.pdf
 
  ## One Wide Feedforward is All You Need
- https://arxiv.org/abs/2309.01826
+Paper:  https://arxiv.org/abs/2309.01826 <br>
 
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">&quot;One Wide Feedforward is All You Need&quot; from Apple<br><br>- FFN parameters are redundant in the Transformer <br>- Remove FFN on decoder<br>- Share an FFN in encoder<br>- Slight accuracy drop<br>- Scale back the model to the org size. <br>- Improved accuracy and latency<a href="https://t.co/2Q5hFe7RRA">https://t.co/2Q5hFe7RRA</a></p>&mdash; erogol 🐸💬 (@erogol) <a href="https://twitter.com/erogol/status/1701633558316535883?ref_src=twsrc%5Etfw">September 12, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-## Performer
-Time: O(Td^2 log d)
-Space: O(Td log d + d^2 lod d)
-
-Paper: https://arxiv.org/abs/2009.14794v4
-Code: https://github.com/facebookresearch/xformers/blob/4e096c4afd4d1d377053cdfc6964f67f6435dceb/xformers/components/attention/favor.py#L41
-
-## Reformer
-Time: O(T log Td)
-Space: O(T log T + Td)
-
-https://arxiv.org/abs/2001.04451
-https://blog.research.google/2020/01/reformer-efficient-transformer.html
-https://github.com/lucidrains/reformer-pytorch
+In the Transformer architecture, it has been observed that the FFN (Feed-Forward Network) parameters are unnecessary and redundant. As a solution, the FFN has been removed from the decoder, while in the encoder, an FFN is shared. Although this change resulted in a slight drop in accuracy, the model was scaled back to its original size. This adjustment led to  improved accuracy and reduced latency. They repost 18.5% speed-up using this technique.
