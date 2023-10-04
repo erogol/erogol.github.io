@@ -286,6 +286,7 @@ Using shared key and value vectors among attention heads to reduce the memory ov
 
 
 ### Linformer
+
 Paper: https://arxiv.org/abs/2006.04768v3 <br>
 Code: https://github.com/facebookresearch/fairseq/tree/main/examples/linformer <br>
 
@@ -293,20 +294,23 @@ Linformer is a modified version of the Transformer model that tackles the proble
 
 
 ## Roformer
-  Paper: https://arxiv.org/abs/2104.09864<br>
-	Code: https://huggingface.co/docs/transformers/model_doc/roformer <br>
 
-	"The proposed RoPE encodes absolute positional information with rotation matrix and naturally incorporates explicit relative position dependency in self-attention formulation. Notably, RoPE comes with valuable properties such as flexibility of being expand to any sequence lengths, decaying inter-token dependency with increasing relative distances, and capability of equipping the linear self-attention with relative position encoding"
+Paper: https://arxiv.org/abs/2104.09864<br>
+Code: https://huggingface.co/docs/transformers/model_doc/roformer <br>
+
+"The proposed RoPE encodes absolute positional information with rotation matrix and naturally incorporates explicit relative position dependency in self-attention formulation. Notably, RoPE comes with valuable properties such as flexibility of being expand to any sequence lengths, decaying inter-token dependency with increasing relative distances, and capability of equipping the linear self-attention with relative position encoding"
 
 
 ## Monarch Mixer
-	https://hazyresearch.stanford.edu/blog/2023-07-25-m2-bert
+https://hazyresearch.stanford.edu/blog/2023-07-25-m2-bert
 
 
 ## Hierarchical Transformers
-https://arxiv.org/pdf/2110.13711.pdf
 
- ## One Wide Feedforward is All You Need
+Paper: https://arxiv.org/pdf/2110.13711.pdf <br>
+
+## One Wide Feedforward is All You Need
+
 Paper:  https://arxiv.org/abs/2309.01826 <br>
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">&quot;One Wide Feedforward is All You Need&quot; from Apple<br><br>- FFN parameters are redundant in the Transformer <br>- Remove FFN on decoder<br>- Share an FFN in encoder<br>- Slight accuracy drop<br>- Scale back the model to the org size. <br>- Improved accuracy and latency<a href="https://t.co/2Q5hFe7RRA">https://t.co/2Q5hFe7RRA</a></p>&mdash; erogol 🐸💬 (@erogol) <a href="https://twitter.com/erogol/status/1701633558316535883?ref_src=twsrc%5Etfw">September 12, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
