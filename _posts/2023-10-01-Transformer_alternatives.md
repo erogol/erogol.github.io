@@ -7,6 +7,12 @@ tags: machine-learning deep-learning language-modelling llms review
 minute: 10
 ---
 
+<style>
+img {
+    border-radius: 10px;
+}
+</style>
+
 
 # Alternatives to Transformer
 
