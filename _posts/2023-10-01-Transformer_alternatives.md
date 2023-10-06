@@ -1,6 +1,6 @@
 ---
 layout: post
-title: DRAFT - Review of Alternative Models to Transformers
+title: Reviewing Transformer Variants
 description: A review of alternative models to Transformers.
 summary: A review of alternative models to Transformers.
 tags: machine-learning deep-learning language-modelling llms review
@@ -14,11 +14,12 @@ img {
 </style>
 
 
-# Alternatives to Transformer
+# Reviewing Transformer Variants
+
 
 ## Transformer
-Space: O(T^2 + Td)<br>
-Time: O(T log Td)<br>
+Space: `O(T^2 + Td)`
+Time: `O(T log Td)`
 
 Traditional sequential models, like recurrent neural networks (RNNs) and long short-term memory networks (LSTMs), faced challenges in capturing long-range dependencies and parallelizing computations effectively. The Transformer architecture addresses these issues by relying on self-attention mechanisms.
 
@@ -34,12 +35,11 @@ In this article, I will discuss several variants of the Transformer model. I wil
 
 ## RWKV
 
-Space: O(Td)<br>
-Time: O(Td)<br>
+Space: `O(Td)`
+Time: `O(Td)`
 
-Code: https://github.com/BlinkDL/RWKV-LM<br>
-Paper: https://arxiv.org/abs/2305.13048<br>
-https://github.com/BlinkDL/ChatRWKV/blob/main/RWKV_in_150_lines.py<br>
+👩‍💻 [Code](https://github.com/BlinkDL/RWKV-LM)
+📎 [Paper](https://arxiv.org/abs/2305.13048)
 
 RWKV is a new approach to RNN models that combines the advantages of RNNs and Transformers while mitigating their known limitations. It introduces several key strategies that allow it to capture locality and long-range dependencies, while addressing limitations of current architectures. RWKV offers a promising and viable solution for handling tasks involving large-scale models with billions of parameters, exhibiting competitive performance at a fraction of the computational cost. If you're interested in improving the memory and computational complexity of transformers in natural language processing tasks, RWKV is definitely worth exploring.
 
@@ -74,15 +74,14 @@ In the results, RWKV has shown impressive performance and has even outperformed 
 
 
 
-
 ## Hyena
 
- Time: O(NdT (logT + d)) - N is number of projections <br>
- Space Complexity: O(Td)
+ Time: `O(NdT (logT + d))` st. N is number of projections
+ Space Complexity: `O(Td)`
 
- Code: https://github.com/HazyResearch/safari <br>
- Paper: https://arxiv.org/abs/2302.10866 <br>
- Blogpost: https://hazyresearch.stanford.edu/blog/2023-03-07-hyena <br>
+👩‍💻 [Code](https://github.com/HazyResearch/safari)
+📎 [Paper](https://arxiv.org/abs/2302.10866)
+📎 [Blogpost](https://hazyresearch.stanford.edu/blog/2023-03-07-hyena)
 
 Hyena addresses the Transformers limitations with their attention operator, which becomes computationally expensive with longer sequences and is unable to access a significant amount of context. Hyena offers a subquadratic alternative to attention by combining long convolutions with data-controlled gating. In various tasks involving recall and reasoning with sequences containing thousands to hundreds of thousands of tokens, Hyena has demonstrated significant improvements in accuracy compared to state-space operators and other methods. Additionally, Hyena has set a new standard for dense-attention-free architectures in language modeling. It achieves Transformer-level quality while reducing required training compute by 20% at a sequence length of 2K. Notably, Hyena operators are also faster, offering twice the efficiency of highly optimized attention operators.
 
@@ -136,13 +135,14 @@ In terms of runtime, the cross-over point between Hyena and attention occurs at 
 In my view, the Hyena model is a intersting approach for extending input length through scalable computing. Nonetheless, further investigations on a larger scale are necessary to confirm its efficacy as a viable alternative to the Transformer model. For now, the RWKV model appears to offer better value in terms of both complexity and performance. However, if the goal is to tackle very lengthy context problems, Hyena could be a promising choice.
 
 
+
 ## Attention Free Transformer
 
-Time: AFT-simple O(Td), AFT-full O(T^2d) <br>
-Space: O(Td) <br>
+Time: AFT-simple `O(Td)`, AFT-full `O(T^2d)`
+Space: `O(Td)`
 
-Paper: https://arxiv.org/abs/2105.14103v2<br>
-Code (unofficial): https://github.com/rish-16/aft-pytorch<br>
+📎 [Paper](https://arxiv.org/abs/2105.14103v2)
+👩‍💻 [Code (unofficial)](https://github.com/rish-16/aft-pytorch)
 
 Attention Free Transformer (AFT) is a new variant of the Transformer model that eliminates the need for dot product self attention, making it compatible with large input and model sizes. AFT takes advantage of locality and spatial weight sharing while maintaining global connectivity, resulting in excellent efficiency. The paper presents experiments on autoregressive modeling tasks and image recognition, demonstrating competitive performance compared to other models. Overall, AFT is a promising approach for efficient and effective deep learning.
 Original attention can be implemented as
@@ -171,14 +171,13 @@ In general, AFT shows great potential as a substitute for conventional Transform
 
 ## Retentive Network
 
-Time: O(Td(b + h)) s.t. b chunk size and h is head dimension <br>
-Space: O(T) <br>
+Time: `O(Td(b + h))` s.t. b chunk size and h is head dimension
+Space: `O(T)`
 
-Paper: https://arxiv.org/abs/2307.08621<br>
-Code (official):  https://github.com/microsoft/torchscale/commit/bf65397b26469ac9c24d83a9b779b285c1ec640b <br>
-Code:  https://github.com/syncdoth/RetNet<br>
-Code:  https://github.com/Jamie-Stirling/RetNet<br>
-
+📎 [Paper](https://arxiv.org/abs/2307.08621)
+👩‍💻 [Official Code](https://github.com/microsoft/torchscale/commit/bf65397b26469ac9c24d83a9b779b285c1ec640b)
+👩‍💻 [Code 1](https://github.com/syncdoth/RetNet)
+👩‍💻 [Code 2](https://github.com/Jamie-Stirling/RetNet)
 
 RetNet borrows recurrent input processing from RNN and parallel-training of Transformer models and combine them to achieve a compute efficient model. Recurrence enables O(1) inference since it does not need to compute the relation between every input and every other input in the sequence. RetNet applies recurrance chunk-wise to the input to alleviate the representational bottleneck of the regular RNN and model longer samples efficiently.
 
@@ -212,6 +211,7 @@ When compared to the other Transformer alternatives RetNet outperforms all the o
 <img src="https://cdn.discordapp.com/attachments/1158141030080716891/1158143990630187048/image.png?ex=651b2d24&is=6519dba4&hm=05891731dffc0e053173f55da8865837ad7805293a3c3b29eda0f0e2a7cc8490" alt="Image">
   <figcaption>Comparison with the other models.</figcaption>
 </figure>
+
 
 <br>
 ## Longnet
@@ -251,11 +251,11 @@ For testing the model, they used the Stack dataset, a source code collection wit
 
 <br>
 ## MegaByte
-Time: O(T ^ (4/3)  d)
-Space:
+Time: `O(T ^ (4/3)  d)`
+Space: `O(T log Td)`
 
-Paper: https://arxiv.org/abs/2305.07185<br>
-Code: https://github.com/lucidrains/MEGABYTE-pytorch<br>
+📎 [Paper](https://arxiv.org/abs/2305.07185)
+👩‍💻 [Code](https://github.com/lucidrains/MEGABYTE-pytorch)
 
 <figure>
   <img src="https://cdn.discordapp.com/attachments/1158141030080716891/1159125345593737246/image.png?ex=651ebf19&is=651d6d99&hm=987d8fe538501b0d3970b50846dfa7f154a721edbf771dac74f8a9da7708675c&" alt="image">
@@ -283,42 +283,79 @@ In addition, I am curious about the capability of MegaByte to perform Text-to-Sp
 
 
 
-## Honorable Mentions
+## Noteworthy Mentions
+
+Here are a few other noteworthy models that I won't delve into further since they haven't gained much traction in the community or are simple tricks that don't require much explanation.
+
 ### Multi-Query Attention
-Paper: https://arxiv.org/pdf/1911.02150.pdf<br>
-Code:  https://github.com/knotgrass/attention/blob/main/attn/attention.py <br>
+📎[Paper](https://arxiv.org/pdf/1911.02150.pdf)
+👩‍💻[Code](https://github.com/knotgrass/attention/blob/main/attn/attention.py)
 
 Using shared key and value vectors among attention heads to reduce the memory overhead at inference by reduces size of the KV cache.
 
 
 ### Linformer
-
-Paper: https://arxiv.org/abs/2006.04768v3 <br>
-Code: https://github.com/facebookresearch/fairseq/tree/main/examples/linformer <br>
+📎 [Paper](https://arxiv.org/abs/2006.04768v3)
+👩‍💻 [Code](https://github.com/facebookresearch/fairseq/tree/main/examples/linformer)
 
 Linformer is a modified version of the Transformer model that tackles the problem with self-attention in the original model. The linear self-attention is achieved by breaking down the scaled dot-product attention into multiple smaller attentions using linear projections. Together, these operations create a low-rank factorization of the original attention mechanism.
 
 
 ## Roformer
-
-Paper: https://arxiv.org/abs/2104.09864<br>
-Code: https://huggingface.co/docs/transformers/model_doc/roformer <br>
+ 📎 [Paper](https://arxiv.org/abs/2104.09864)
+👩‍💻 [Code](https://huggingface.co/docs/transformers/model_doc/roformer)
 
 "The proposed RoPE encodes absolute positional information with rotation matrix and naturally incorporates explicit relative position dependency in self-attention formulation. Notably, RoPE comes with valuable properties such as flexibility of being expand to any sequence lengths, decaying inter-token dependency with increasing relative distances, and capability of equipping the linear self-attention with relative position encoding"
 
 
-## Monarch Mixer
-https://hazyresearch.stanford.edu/blog/2023-07-25-m2-bert
-
-
-## Hierarchical Transformers
-
-Paper: https://arxiv.org/pdf/2110.13711.pdf <br>
-
 ## One Wide Feedforward is All You Need
-
-Paper:  https://arxiv.org/abs/2309.01826 <br>
+📎 [Paper](https://arxiv.org/abs/2309.01826)
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">&quot;One Wide Feedforward is All You Need&quot; from Apple<br><br>- FFN parameters are redundant in the Transformer <br>- Remove FFN on decoder<br>- Share an FFN in encoder<br>- Slight accuracy drop<br>- Scale back the model to the org size. <br>- Improved accuracy and latency<a href="https://t.co/2Q5hFe7RRA">https://t.co/2Q5hFe7RRA</a></p>&mdash; erogol 🐸💬 (@erogol) <a href="https://twitter.com/erogol/status/1701633558316535883?ref_src=twsrc%5Etfw">September 12, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 In the Transformer architecture, it has been observed that the FFN (Feed-Forward Network) parameters are unnecessary and redundant. As a solution, the FFN has been removed from the decoder, while in the encoder, an FFN is shared. Although this change resulted in a slight drop in accuracy, the model was scaled back to its original size. This adjustment led to  improved accuracy and reduced latency. They repost 18.5% speed-up using this technique.
+
+
+## Performer
+Time: `O(Td^2 log d)`
+Space: `O(Td log d + d^2 lod d)`
+
+📎 [Paper](https://arxiv.org/abs/2009.14794v4)
+👩‍💻 [Code](https://github.com/facebookresearch/xformers/blob/4e096c4afd4d1d377053cdfc6964f67f6435dceb/xformers/components/attention/favor.py#L41)
+
+Performer can "estimate" regulat dot-product attention using an approach called "Fast attention via positive orthogonal random features" FAVOR+. FAVOR+ combines low-rank approximation, matrix factorization, matrix decomposition, then the space and time complexity becomes much more linear.
+
+
+
+## Reformer
+Time: `O(T log Td)`
+Space: O`(T log T + Td)`
+
+[📎Paper](https://arxiv.org/abs/2001.04451)
+[👩‍💻Code (unofficial)](https://github.com/lucidrains/reformer-pytorch)
+
+Reformer model incorporates three techniques to improve efficiency. First, it uses reversible residuals to reduce memory consumption by storing only one copy of the intermediate activation that can be used to reproduce the activations of the earlier layers by model parameters. This helps minimize the memory overhead. Second, it splits values into chunks, which not only saves memory in FFT layers but also makes the computational load comparable to a regular Transformer. Lastly, the paper focuses on investigating the most significant change, which is approximating attention using locality-sensitive hashing. This technique brings about a substantial improvement in the model.
+
+
+## Monarch Mixer
+
+👩‍💻[Blog](https://hazyresearch.stanford.edu/blog/2023-07-25-m2-bert)
+👩‍💻[Code](https://github.com/HazyResearch/m2)
+
+Monarch Mixer uses monarch matrices for a sub-quadratic model in both sequence length and model dimension. The idea is to replace the major elements of a Transformer with Monarch matrices — which are a class of structured matrices that "generalize the FFT and are sub-quadratic, hardware-efficient, and expressive". In Monarch Mixer, we use layers built up from Monarch matrices to do both mixing across the sequence (replacing the Attention operation) and mixing across the model dimension (replacing the dense MLP).
+
+## Conformers
+
+📎 [Paper](https://arxiv.org/abs/2005.08100)
+👩‍💻 [Code (unofficial)](https://github.com/sooftware/conformer)
+
+The Conformer is a variant of the Transformer model specifically designed for audio tasks such as speech recognition. While the Transformer excels at capturing global relationships, it is not as effective as convolutional layers in capturing local information. To address this, the Conformer augments the Transformer model by adding convolutional layers between the attention module and the final feed-forward layer. As a result, the Conformer achieves significantly better performance than previous Transformer and CNN-based models, setting new state-of-the-art accuracies on ASR.
+
+
+### Efficient Streaming LMs with Attention Sinks
+
+📎 [Paper](https://arxiv.org/pdf/2309.17453v1.pdf)
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Efficient Streaming Language Models with Attention Sinks <br><br>- Softmax in attention forces sum to 1 <br>- Thus it always attends first tokens <br>- Add learnable start tokens (sinks) <br>- Sliding window context with sinks <br>- Stable, fast, scalable inference! <a href="https://t.co/xNG4asnxWc">https://t.co/xNG4asnxWc</a></p>&mdash; erogol 🐸💬 (@erogol) <a href="https://twitter.com/erogol/status/1708811519511744899?ref_src=twsrc%5Etfw">October 2, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+This looks similar to Longnet but they keep a set of leanable tokens - sinks - at the begining of the generated sequence, observing that it improves stability and performance even if you window the attention computation.
