@@ -13,6 +13,7 @@ img {
 }
 </style>
 
+In this article, I will explore various alternatives to transformers, considering their architectural improvements, computational efficiency, and performance results across different benchmarks. I intend to continually update this post with new models in the future. If you believe there are any models or important points that should be included or any corrections that need to be made, please feel free to contact me.
 
 ## Transformer
 Space: `O(T^2 + Td)`
