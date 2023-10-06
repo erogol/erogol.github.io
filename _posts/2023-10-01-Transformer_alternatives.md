@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Reviewing Transformer Variants
+title: A Review for Transformer Variants
 description: A review of alternative models to Transformers.
 summary: A review of alternative models to Transformers.
 tags: machine-learning deep-learning language-modelling llms review
@@ -12,9 +12,6 @@ img {
     border-radius: 10px;
 }
 </style>
-
-
-# Reviewing Transformer Variants
 
 
 ## Transformer
