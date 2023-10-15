@@ -5,311 +5,15 @@
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/png" href="https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F73500d39-5ecb-44f8-9188-f44c25addc6b_160x160.png">
+    <link rel="shortcut icon" type="image/png"
+        href="https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F73500d39-5ecb-44f8-9188-f44c25addc6b_160x160.png">
     <meta http-equiv="Page-Enter" content="blendTrans(Duration=.5)" />
     <meta http-equiv="Page-Exit" content="blendTrans(Duration=.5)" />
     <title>ME_AI - Markdown editor with AI </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-    <style>
-        body {
-            background-color: #2a2a2a;
-            color: #d4d4d4;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            max-width: 1000px;
-            /* Adjust the max width as needed */
-            margin: 0 auto;
-            padding: 20px;
-            max-width: 90vw;
-            /* Set the maximum width as 90% of viewport width */
-        }
-
-        .editor-toolbar,
-        .editor-preview {
-            background-color: #3a3a3a;
-            color: #d4d4d4;
-        }
-
-        .editor-toolbar .fa,
-        .editor-toolbar .material-icons {
-            color: #999 !important;
-        }
-
-        .editor-toolbar a:hover,
-        .editor-toolbar button:hover {
-            color: #fff;
-        }
-
-        .editor-toolbar i {
-            color: #d4d4d4;
-        }
-
-        .editor-toolbar {
-            border: none;
-            padding: 4px 0;
-            opacity: 0;
-            transition: opacity 0.3s;
-            height: 30px;
-            margin-top: 3px;
-        }
-
-        .editor-toolbar:before {
-            margin-bottom: 1px;
-        }
-
-        .editor-toolbar:after {
-            margin-top: 1px;
-        }
-
-        .editor-toolbar .btn {
-            line-height: 20px;
-            /* Adjust the line-height */
-            height: 28px;
-            /* Adjust the button height */
-        }
-
-        .CodeMirror {
-            background-color: #1e1e1e;
-            color: #d4d4d4;
-            border-color: #3a3a3a;
-            height: 90vh;
-            /* Set the height as 60% of viewport height */
-        }
-
-        /* Change the color of the text selection */
-        .CodeMirror-focused .CodeMirror-selected {
-            background-color: rgba(255, 255, 255, 0.317);
-            /* Transparent orange */
-        }
-
-        .CodeMirror-cursor {
-            border-left: 1px solid #d4d4d4;
-        }
-
-        .editor-preview-active {
-            background-color: #2a2a2a;
-            /* Change the active preview background color */
-            color: #d4d4d4;
-        }
-
-        .editor-preview-active a {
-            color: orange;
-            /* Change link color in active preview */
-        }
-
-        .context-menu {
-            position: absolute;
-            background-color: #3a3a3a;
-            color: #d4d4d4;
-            padding: 5px;
-            border-radius: 5px;
-            display: none;
-            z-index: 1000;
-        }
-
-        .context-menu.active {
-            display: block;
-        }
-
-        /* Apply styles when hovering over a menu item */
-        .context-menu div:hover {
-            background-color: #555;
-            color: white;
-            cursor: pointer;
-        }
-
-        /* Apply styles when hovering over a menu item */
-        .context-menu div {
-            padding: 10px 15px;
-            border-bottom: 1px solid #ddd;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .context-menu div:last-child {
-            border-bottom: none;
-        }
-
-        .context-menu div:hover {
-            background-color: #555;
-            color: white;
-            cursor: pointer;
-        }
-
-        /* Add styles for highlighting */
-        .highlight-inserted {
-            background-color: #dd874454;
-            /* Yellow background for highlighting */
-            transition: background-color 3s;
-            /* Transition duration */
-        }
-
-        /* Highlight added text */
-        .highlight-added {
-            background-color: #dd874454;
-            /* Light green background */
-            transition: background-color 3s;
-        }
-
-        /* Loading overlay */
-        .text-area-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            /* Light gray */
-            /* Semi-transparent white */
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            /* Place it above other elements */
-        }
-
-        .text-area-loading-spinner {
-            border: 3px solid rgba(0, 0, 0, 0.1);
-            border-left-color: #333;
-            /* Spinner color */
-            animation: spin 1s linear infinite;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Show the toolbar on hover */
-        #editor-container:hover #toolbar {
-            opacity: 1;
-        }
-
-        /* Help window styles */
-        #help-window {
-            position: absolute;
-            width: 70%;
-            margin: 50px auto;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            top: 50px;
-            /* Adjust the top position as needed */
-            left: 50%;
-            /* Center horizontally */
-            transform: translateX(-50%);
-            /* Adjust the width as needed */
-            background-color: #333;
-            /* Light gray background */
-            border: 1px solid #ccc;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            display: none;
-            font-family: Arial, sans-serif;
-            z-index: 1000;
-        }
-
-        #help-window h2 {
-            margin-top: 0;
-            font-size: 24px;
-            color: #ccc;
-            /* Dark text color */
-        }
-
-        #help-window p {
-            color: #ccc;
-            /* Medium gray text color */
-        }
-
-        #help-window a {
-            color: orange;
-            /* Orange link color */
-        }
-
-        .closeButton {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            font-size: 18px;
-            color: #666;
-            /* Medium gray text color */
-            transition: color 0.3s;
-        }
-
-        #closeButton:hover {
-            color: #333;
-            /* Dark text color on hover */
-        }
-
-        #promptOverlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            justify-content: center;
-            align-items: center;
-            z-index: 1;
-        }
-
-        #promptDialog {
-            background: white;
-            padding: 5px;
-            border-radius: 5px;
-            text-align: center;
-            position: relative;
-            background-color: #333;
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            /* Adjust the maximum width as needed */
-            width: 90%;
-            /* Set a specific width or percentage */
-        }
-
-        #promptText {
-            width: calc(100% - 16px);
-            font-size: 16px;
-            resize: none;
-            overflow: hidden;
-            background-color: #555;
-            color: #ddd;
-            font-family: Arial, sans-serif;
-            text-align: left;
-            margin: 0 auto;
-            background: white;
-            padding: 5px;
-            position: relative;
-            background-color: #333;
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            width: 90%;
-            border: 0px;
-            border-radius: 5px;
-            line-height: 2;
-            margin: 0 auto;
-            padding: 20px;
-            height: auto;
-        }
-
-        /* # disable border on focus */
-        #promptText:focus {
-            outline: none;
-        }
-
-        #promptIcon {
-            position: relative;
-            top: 10px;
-            left: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="meai.css">
 </head>
 
 <!-- Google tag (gtag.js) -->
@@ -380,16 +84,35 @@ def greet(name):
     print(f"Hello, {name}!")
 
             </textarea>
-            <div id="promptOverlay">
+            <div id="promptOverlay" class="contrainer" data-bs-theme="dark">
                 <!-- <div id="promptIcon">✨</div> -->
-                <textarea id="promptText"
-                    placeholder="✨ Ask AI to write anything... e.g. 'Write me a blogpost.'"></textarea>
+                <div class="col" data-bs-theme="dark">
+                    <div class="row">
+                        <div
+                            class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
+
+                            <textarea id="promptText"
+                                placeholder="✨ Ask AI to write anything... e.g. 'Write me a blogpost.'"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div
+                            class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
+                            <ul id="promptHistoryList"
+                                class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 border-0 shadow w-220px">
+                                ></ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="context-menu" id="contextMenu">
-                <div id="autoComplete">Autocomplete</div>
-                <div id="makeFluent">Make it Fluent</div>
-                <div id="paraphrase">Paraphrase</div>
-                <div id="correctSpelling">Correct Spelling</div>
+            <div class="context-menu" id="contextMenu" data-bs-theme="dark">
+                <ul data-bs-theme="dark" class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 border-0 shadow w-220px">
+                    <li class="dropdown-item" href="#" id="autoComplete">Autocomplete</li>
+                    <li class="dropdown-item" href="#" id="makeFluent">Make it Fluent</li>
+                    <li class="dropdown-item" href="#" id="paraphrase">Paraphrase</li>
+                    <li class="dropdown-item" href="#" id="correctSpelling">Correct Spelling</li>
+                </ul>
             </div>
             <div class="text-area-overlay" id="loadingOverlay">
                 <div class="text-area-loading-spinner"></div>
@@ -465,6 +188,7 @@ def greet(name):
             var helpWindow = document.getElementById("help-window");
             var helpWindowCloseBtn = document.getElementById("helpCloseBtn");
             var previousText = ""; // Store the previous text for highlighting
+            var promptHistoryList = document.getElementById("promptHistoryList"); // Get the prompt text field
 
             var saveAction = function (editor) {
                 // Load the text from local storage and set it to SimpleMDE
@@ -662,6 +386,10 @@ def greet(name):
              * UTILS
              * ***********************************************************/
 
+            function get_prompt_history() {
+                promptHistory = JSON.parse(localStorage.getItem("promptHistory")) || [];
+                return promptHistory;
+            }
 
             // Function to show the loading overlay
             function showLoadingOverlay() {
@@ -719,6 +447,32 @@ def greet(name):
                 const textarea = document.getElementById('promptText');
                 textarea.style.height = 'auto';
                 textarea.style.height = textarea.scrollHeight + 'px';
+
+                // append prompt history to the prompt history list
+                promptHistoryList.innerHTML = '';
+                promptHistory = get_prompt_history();
+                promptHistory.forEach(function (value) {
+                    var li = document.createElement('li');
+                    li.className = 'text-truncate  list-group-item prompt-history-item';
+                    var a = document.createElement('a');
+                    a.className = 'text-truncate  dropdown-item rounded-2';
+                    a.href = '#';
+                    var span = document.createElement('span');
+                    span.className = 'd-inline-block rounded-circle p-1';
+                    span.textContent = '';
+                    a.appendChild(span);
+                    a.appendChild(document.createTextNode(value));
+                    li.appendChild(a);
+                    // Add click event listener to li
+                    li.addEventListener('click', function () {
+                        // Get textarea by id and set its value to the clicked list item's text
+                        set_prompt_text(value);
+                        document.getElementById('promptText').focus();
+                        resizeTextarea();
+                    });
+                    promptHistoryList.appendChild(li);
+                });
+
             }
 
             function closePromptDialog() {
@@ -727,6 +481,15 @@ def greet(name):
                 // if there is no text except ✨ in the field then clear the field
                 if (document.getElementById('promptText').value === '✨ ') {
                     document.getElementById('promptText').value = '';
+                }
+
+                // Update prompt history
+                console.log("Updating prompt history")
+                instruction = get_prompt()
+                if (instruction !== '') {
+                    promptHistory.unshift(instruction);
+                    console.log(promptHistory);
+                    localStorage.setItem('promptHistory', JSON.stringify(promptHistory));
                 }
             }
 
@@ -754,6 +517,17 @@ def greet(name):
                 }
             }
 
+            function get_prompt() {
+                instruction = document.getElementById('promptText').value;
+                // remove ✨ from the prompt text
+                instruction = instruction.replace('✨ ', '');
+                return instruction;
+            }
+
+            function set_prompt_text(text) {
+                document.getElementById('promptText').value = '✨ ' + text;
+            }
+
             promptText.addEventListener('input', resizeTextarea);
 
 
@@ -773,10 +547,7 @@ def greet(name):
                 else if (e.key === "Enter") {
                     event.preventDefault();
 
-                    instruction = document.getElementById('promptText').value;
-
-                    // remove ✨ from the prompt text
-                    instruction = instruction.replace('✨ ', '');
+                    instruction = get_prompt();
 
                     showLoadingOverlay();
 

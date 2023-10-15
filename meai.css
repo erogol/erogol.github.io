@@ -1,0 +1,309 @@
+body {
+    background-color: #212529;
+    color: #d4d4d4;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 1000px;
+    /* Adjust the max width as needed */
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 90vw;
+    /* Set the maximum width as 90% of viewport width */
+}
+
+.editor-toolbar,
+.editor-preview {
+    background-color: #3a3a3a;
+    color: #d4d4d4;
+}
+
+.editor-toolbar .fa,
+.editor-toolbar .material-icons {
+    color: #999 !important;
+}
+
+.editor-toolbar a:hover,
+.editor-toolbar button:hover {
+    color: #fff;
+}
+
+.editor-toolbar i {
+    color: #d4d4d4;
+}
+
+.editor-toolbar {
+    border: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.editor-toolbar:before {
+    margin-bottom: 1px;
+}
+
+.editor-toolbar:after {
+    margin-top: 1px;
+}
+
+.editor-toolbar .btn {
+    line-height: 40px;
+    /* Adjust the line-height */
+    height: 32px;
+    /* Adjust the button height */
+}
+
+.CodeMirror {
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    border-color: #3a3a3a;
+    height: 90vh;
+    /* Set the height as 60% of viewport height */
+}
+
+/* Change the color of the text selection */
+.CodeMirror-focused .CodeMirror-selected {
+    background-color: rgba(255, 255, 255, 0.317);
+    /* Transparent orange */
+}
+
+.CodeMirror-cursor {
+    border-left: 1px solid #d4d4d4;
+}
+
+.editor-preview-active {
+    background-color: #212529;
+    /* Change the active preview background color */
+    color: #d4d4d4;
+}
+
+.CodeMirror-vscrollbar {
+    scrollbar-color: #3a3a3a #1e1e1e;
+}
+
+.editor-preview-active a {
+    color: orange;
+    /* Change link color in active preview */
+}
+
+.context-menu {
+    position: absolute;
+    /* background-color: #3a3a3a; */
+    color: #d4d4d4;
+    padding: 5px;
+    border-radius: 5px;
+    display: none;
+    z-index: 1000;
+}
+
+.context-menu.active {
+    display: block;
+}
+
+/* Apply styles when hovering over a menu item */
+.context-menu div:hover {
+    background-color: #555;
+    color: white;
+    cursor: pointer;
+}
+
+/* Apply styles when hovering over a menu item */
+.context-menu div {
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.context-menu div:last-child {
+    border-bottom: none;
+}
+
+.context-menu div:hover {
+    background-color: #555;
+    color: white;
+    cursor: pointer;
+}
+
+/* Add styles for highlighting */
+.highlight-inserted {
+    background-color: #dd874454;
+    /* Yellow background for highlighting */
+    transition: background-color 3s;
+    /* Transition duration */
+}
+
+/* Highlight added text */
+.highlight-added {
+    background-color: #dd874454;
+    /* Light green background */
+    transition: background-color 3s;
+}
+
+/* Loading overlay */
+.text-area-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    /* Light gray */
+    /* Semi-transparent white */
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    /* Place it above other elements */
+}
+
+.text-area-loading-spinner {
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #212529;
+    /* Spinner color */
+    animation: spin 1s linear infinite;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Show the toolbar on hover */
+#editor-container:hover #toolbar {
+    opacity: 1;
+}
+
+/* Help window styles */
+#help-window {
+    position: absolute;
+    width: 70%;
+    margin: 50px auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    top: 50px;
+    /* Adjust the top position as needed */
+    left: 50%;
+    /* Center horizontally */
+    transform: translateX(-50%);
+    /* Adjust the width as needed */
+    background-color: #212529;
+    /* Light gray background */
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: none;
+    font-family: Arial, sans-serif;
+    z-index: 1000;
+}
+
+#help-window h2 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #ccc;
+    /* Dark text color */
+}
+
+#help-window p {
+    color: #ccc;
+    /* Medium gray text color */
+}
+
+#help-window a {
+    color: orange;
+    /* Orange link color */
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #666;
+    /* Medium gray text color */
+    transition: color 0.3s;
+}
+
+#closeButton:hover {
+    color: #212529;
+    /* Dark text color on hover */
+}
+
+#promptOverlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 100%;
+    /* justify-content: center;
+    align-items: center;  */
+    z-index: 1;
+}
+
+#promptDialog {
+    background: white;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+    position: relative;
+    background-color: #212529;
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    /* Adjust the maximum width as needed */
+    width: 90%;
+    /* Set a specific width or percentage */
+}
+
+#promptText {
+    width: calc(100% - 16px);
+    font-size: 16px;
+    resize: none;
+    overflow: hidden;
+    /* background-color: #555; */
+    color: #ddd;
+    font-family: Arial, sans-serif;
+    text-align: left;
+    margin: 0 auto;
+    background: white;
+    padding: 5px;
+    position: relative;
+    background-color: #212529;
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    width: 70%;
+    border: 0px;
+    border-radius: 5px;
+    line-height: 1;
+    margin: 0 auto;
+    padding: 20px;
+    height: auto;
+}
+
+#promptHistoryList{
+    width: calc(100% - 16px);
+    max-width: 600px;
+    word-wrap: break-word;
+}
+
+.prompt-history-item{
+    word-wrap: break-word;
+}
+
+/* # disable border on focus */
+#promptText:focus {
+    outline: none;
+}
+
+
+.simplebar-track.simplebar-vertical {
+    background-color: orange;
+}
