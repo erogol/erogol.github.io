@@ -101,7 +101,8 @@ def greet(name):
                         <div
                             class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
                             <ul id="promptHistoryList" class="dropdown-menu position-static d-grid rounded-2 w-220px">
-                                ></ul>
+                                <li class="dropdown-item disabled">No history yet</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -387,7 +388,7 @@ def greet(name):
              * UTILS
              * ***********************************************************/
 
-            function  add_prompt_to_favorite() {
+            function add_prompt_to_favorite() {
                 // Get the prompt text
                 var instruction = get_prompt();
                 if (instruction !== '') {
@@ -398,7 +399,7 @@ def greet(name):
                 }
             }
 
-            function delete_prompt_from_favorite(instruction){
+            function delete_prompt_from_favorite(instruction) {
                 // Get the prompt text
                 if (instruction !== '') {
                     if (favPromptList.includes(instruction)) {
@@ -545,12 +546,14 @@ def greet(name):
                 textarea.style.height = textarea.scrollHeight + 'px';
 
                 // append prompt history to the prompt history list
-                promptHistoryList.innerHTML = '';
                 favPromptHistory = get_favorite_prompt_history();
                 promptHistory = get_prompt_history();
                 // merge prompt history and fav prompt history
                 promptHistory = favPromptHistory.concat(promptHistory);
-                promptHistory.forEach(createPromptHistoryList);
+                if (promptHistory.length > 0) {
+                    promptHistoryList.innerHTML = '';
+                    promptHistory.forEach(createPromptHistoryList);
+                }
 
             }
 
