@@ -288,14 +288,34 @@ body {
     height: auto;
 }
 
-#promptHistoryList{
+#promptHistoryList {
     width: calc(100% - 16px);
     max-width: 600px;
     word-wrap: break-word;
+    max-height: 60vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(155, 155, 155, 0.7) transparent;
 }
 
-.prompt-history-item{
+.prompt-history-item {
     word-wrap: break-word;
+    align-items: center;
+    justify-content: space-between;
+    vertical-align: middle;
+}
+
+.prompt-history-list::-webkit-scrollbar {
+    width: 12px;
+}
+
+.prompt-history-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.prompt-history-list::-webkit-scrollbar-thumb {
+    background-color: rgba(155, 155, 155, 0.7);
+    background-clip: padding-box;
 }
 
 /* # disable border on focus */
@@ -303,7 +323,26 @@ body {
     outline: none;
 }
 
+.delete-button:hover i {
+    color: red;
+}
 
-.simplebar-track.simplebar-vertical {
-    background-color: orange;
+.delete-button  {
+    visibility: hidden;
+    float: right;
+    line-height: normal;
+}
+
+.fav-button {
+    visibility: hidden;
+    float: right;
+    line-height: normal;
+}
+
+.prompt-history-item:hover .delete-button {
+    visibility:visible;
+}
+
+.prompt-history-item:hover .fav-button {
+    visibility:visible;
 }

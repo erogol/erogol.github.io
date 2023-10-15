@@ -13,6 +13,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="meai.css">
 </head>
 
@@ -99,15 +100,15 @@ def greet(name):
 
                         <div
                             class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
-                            <ul id="promptHistoryList"
-                                class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 border-0 shadow w-220px">
+                            <ul id="promptHistoryList" class="dropdown-menu position-static d-grid rounded-2 w-220px">
                                 ></ul>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="context-menu" id="contextMenu" data-bs-theme="dark">
-                <ul data-bs-theme="dark" class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 border-0 shadow w-220px">
+                <ul data-bs-theme="dark"
+                    class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 border-0 shadow w-220px">
                     <li class="dropdown-item" href="#" id="autoComplete">Autocomplete</li>
                     <li class="dropdown-item" href="#" id="makeFluent">Make it Fluent</li>
                     <li class="dropdown-item" href="#" id="paraphrase">Paraphrase</li>
@@ -386,6 +387,101 @@ def greet(name):
              * UTILS
              * ***********************************************************/
 
+            function  add_prompt_to_favorite() {
+                // Get the prompt text
+                var instruction = get_prompt();
+                if (instruction !== '') {
+                    if (!favPromptList.includes(instruction)) {
+                        favPromptList.push(instruction);
+                        localStorage.setItem('favPrompts', JSON.stringify(favPromptList));
+                    }
+                }
+            }
+
+            function delete_prompt_from_favorite(instruction){
+                // Get the prompt text
+                if (instruction !== '') {
+                    if (favPromptList.includes(instruction)) {
+                        var index = favPromptList.indexOf(instruction);
+                        if (index > -1) {
+                            favPromptList.splice(index, 1);
+                        }
+                        localStorage.setItem('favPrompts', JSON.stringify(favPromptList));
+                    }
+                }
+            }
+
+            function update_prompt_history_list() {
+                // Clear existing list
+                while (promptHistoryList.firstChild) {
+                    promptHistoryList.removeChild(promptHistoryList.firstChild);
+                }
+                // Re-create list from updated promptHistory array
+                promptHistory.forEach(function (value) {
+                    createPromptHistoryList(value);
+                });
+            }
+
+            function createPromptHistoryList(value) {
+                var li = document.createElement('li');
+                li.className = 'h-100 text-truncate  list-group-item list-group-item-action prompt-history-item';
+                // li.style = 'display: flex;';
+
+                var a = document.createElement('a');
+                a.className = 'text-truncate  dropdown-item rounded-2';
+                a.href = '#';
+
+                var del_button = document.createElement('button');
+                del_button.className = 'btn btn-sm delete-button';
+                del_button.style = 'color: gray;';
+
+                var i = document.createElement('i');
+                i.className = 'bi bi-x-circle';
+                del_button.appendChild(i);
+                // a.appendChild(del_button);
+                del_button.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    var index = promptHistory.indexOf(value);
+                    if (index > -1) {
+                        promptHistory.splice(index, 1);
+                    }
+                    localStorage.setItem('promptHistory', JSON.stringify(promptHistory));
+                    update_prompt_history_list();
+                });
+
+                // add favorite button
+                var fav_button = document.createElement('button');
+                fav_button.className = 'btn btn-sm fav-button bi bi-star';
+                fav_button.style = 'color: gray;';
+                fav_button.addEventListener('click', function (e) {
+                    // stops the click event from triggering the event on the parent element
+                    e.stopPropagation();
+
+                    if (!favorites.includes(value)) {
+                        favorites.push(value);
+                        localStorage.setItem('favorites', JSON.stringify(favorites));
+                    }
+                });
+
+                a.appendChild(del_button);
+                a.appendChild(fav_button);
+                a.appendChild(document.createTextNode(value));
+                li.appendChild(a);
+                // Add click event listener to li
+                li.addEventListener('click', function () {
+                    // Get textarea by id and set its value to the clicked list item's text
+                    set_prompt_text(value);
+                    document.getElementById('promptText').focus();
+                    resizeTextarea();
+                });
+                promptHistoryList.appendChild(li);
+            }
+
+            function get_favorite_prompt_history() {
+                favPromptHistory = JSON.parse(localStorage.getItem("favPromptHistory")) || [];
+                return favPromptHistory;
+            }
+
             function get_prompt_history() {
                 promptHistory = JSON.parse(localStorage.getItem("promptHistory")) || [];
                 return promptHistory;
@@ -450,30 +546,14 @@ def greet(name):
 
                 // append prompt history to the prompt history list
                 promptHistoryList.innerHTML = '';
+                favPromptHistory = get_favorite_prompt_history();
                 promptHistory = get_prompt_history();
-                promptHistory.forEach(function (value) {
-                    var li = document.createElement('li');
-                    li.className = 'text-truncate  list-group-item prompt-history-item';
-                    var a = document.createElement('a');
-                    a.className = 'text-truncate  dropdown-item rounded-2';
-                    a.href = '#';
-                    var span = document.createElement('span');
-                    span.className = 'd-inline-block rounded-circle p-1';
-                    span.textContent = '';
-                    a.appendChild(span);
-                    a.appendChild(document.createTextNode(value));
-                    li.appendChild(a);
-                    // Add click event listener to li
-                    li.addEventListener('click', function () {
-                        // Get textarea by id and set its value to the clicked list item's text
-                        set_prompt_text(value);
-                        document.getElementById('promptText').focus();
-                        resizeTextarea();
-                    });
-                    promptHistoryList.appendChild(li);
-                });
+                // merge prompt history and fav prompt history
+                promptHistory = favPromptHistory.concat(promptHistory);
+                promptHistory.forEach(createPromptHistoryList);
 
             }
+
 
             function closePromptDialog() {
                 document.getElementById('promptOverlay').style.display = 'none';
@@ -487,9 +567,19 @@ def greet(name):
                 console.log("Updating prompt history")
                 instruction = get_prompt()
                 if (instruction !== '') {
-                    promptHistory.unshift(instruction);
-                    console.log(promptHistory);
-                    localStorage.setItem('promptHistory', JSON.stringify(promptHistory));
+                    if (!promptHistory.includes(instruction)) {
+                        promptHistory.unshift(instruction);
+                        console.log(promptHistory);
+                        localStorage.setItem('promptHistory', JSON.stringify(promptHistory));
+                    } else {
+                        console.log("Instruction already exists in prompt history")
+                        var index = promptHistory.indexOf(instruction);
+                        if (index > -1) {
+                            promptHistory.splice(index, 1);
+                        }
+                        promptHistory.unshift(instruction);
+                        localStorage.setItem('promptHistory', JSON.stringify(promptHistory));
+                    }
                 }
             }
 
