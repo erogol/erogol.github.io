@@ -15,6 +15,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="meai.css">
+    <style>
+        body {
+            opacity: 0;
+        }
+    </style>
 </head>
 
 <!-- Google tag (gtag.js) -->
@@ -119,8 +124,43 @@ def greet(name):
             <div class="text-area-overlay" id="loadingOverlay">
                 <div class="text-area-loading-spinner"></div>
             </div>
+            <!-- FILEPATH: /Users/erengolge/Projects/erogol.github.io/meai.html -->
+
+            <div id="settings-window" class="card text-light" style="background-color: #212529;">
+                <div class="card-header d-flex justify-content-between">
+                    <h2>Settings</h2>
+                    <button type="button" class="btn-close btn-close-white" aria-label="Close"
+                        id="settingsCloseBtn"></button>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="apiKeyInput" class="form-label">OpenAI API Key</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="apiKeyInput"
+                                placeholder="Enter your API key here">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="maxTokensInput" class="form-label"
+                            title="Maximum number of tokens that can be returned by the API.">Max Tokens</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="maxTokensInput"
+                                title="Maximum number of tokens that can be returned by the API."
+                                placeholder="Enter the max number of tokens here">
+                        </div>
+                    </div>
+                    <!-- single save button -->
+                    <button class="btn btn-outline-light" type="button" id="saveSettingsBtn">Save All Settings</button>
+                </div>
+            </div>
+
+
+
+
             <div id="help-window">
-                <div class="closeButton" id="helpCloseBtn">X</div>
+                <button type="button" class="btn-close btn-close-white closeButton" aria-label="Close"
+                        id="helpCloseBtn"></button>
+                <!-- <div class="closeButton" id="helpCloseBtn">X</div> -->
                 <h2>🤖 ME-AI</h2>
                 <p>
                     aka Markdown editor with AI.<br><br>
@@ -148,8 +188,10 @@ def greet(name):
                     </ol>
 
                     <h3>Toolbar</h3>
-                    <p>The editor is equipped with a convenient toolbar that becomes visible when you hover your mouse
-                        at the top. In addition to the classic editor options, it also offers a few additional features:
+                    <p>The editor is equipped with a convenient toolbar that becomes visible when you hover your
+                        mouse
+                        at the top. In addition to the classic editor options, it also offers a few additional
+                        features:
                     </p>
 
                     <ul>
@@ -167,7 +209,8 @@ def greet(name):
                         <li>ME_AI requires you to enter an OpenAI API key to use the AI functions.</li>
                         <li>🤖 is a fully local. There is no server in the background.</li>
                         <li>If no text selected, 🤖 will try to update the last paragraph.</li>
-                        <li>The editor automatically saves the current content to local storage every minute, allowing
+                        <li>The editor automatically saves the current content to local storage every minute,
+                            allowing
                             you to conveniently resume your work later.</li>
                     </ul>
                 </div>
@@ -191,6 +234,11 @@ def greet(name):
             var helpWindowCloseBtn = document.getElementById("helpCloseBtn");
             var previousText = ""; // Store the previous text for highlighting
             var promptHistoryList = document.getElementById("promptHistoryList"); // Get the prompt text field
+
+
+            // ##############################################
+            // ############# EDITOR BUTTONS ###############
+            // ##############################################
 
             var saveAction = function (editor) {
                 // Load the text from local storage and set it to SimpleMDE
@@ -289,6 +337,13 @@ def greet(name):
                 set_api_key();
             };
 
+            // Open the settings window
+            var openSettingsWindow = function (editor) {
+                // Show the settings window
+                document.getElementById("settings-window").style.display = "block";
+                console.log("Opening settings window");
+            };
+
             simplemde = new SimpleMDE({
                 element: document.getElementById("markdown-editor"),
                 toolbar: [
@@ -323,6 +378,12 @@ def greet(name):
                         action: uploadAction,
                         className: "fa fa-upload",
                         title: "Upload",
+                    }, "|",
+                    {
+                        name: "settings",
+                        action: openSettingsWindow,
+                        className: "fa fa-cog",
+                        title: "Settings"
                     },
                     {
                         name: "reset-api-key",
@@ -382,7 +443,6 @@ def greet(name):
                 helpWindow.style.display = "none";
                 helpWindow.removeChild(helpWindowCloseBtn);
             });
-
 
             /**************************************************************
              * UTILS
@@ -527,6 +587,10 @@ def greet(name):
                 }
 
                 return currentParagraph.trim();
+            }
+
+            document.getElementById("settingsCloseBtn").onclick = function () {
+                document.getElementById("settings-window").style.display = "none";
             }
 
 
@@ -917,8 +981,52 @@ def greet(name):
                 console.log("Saving text to local storage...");
                 saveAction(simplemde)
             }, 60000);
+
+
+            // ***********************************************
+            // *************** SETTINGS WINDOW ***************
+            // ***********************************************
+            let API_KEY = window.localStorage.getItem('API_KEY');
+            let MAX_TOKENS = window.localStorage.getItem('MAX_TOKENS');
+
+            if (API_KEY) {
+                // Load API Key
+                document.getElementById("apiKeyInput").value = API_KEY;
+            }
+            if (MAX_TOKENS) {
+                // Load Max Tokens
+                document.getElementById("maxTokensInput").value = MAX_TOKENS;
+            }
+
+            document.getElementById("saveSettingsBtn").addEventListener("click", function () {
+                // Get values from input fields.
+                var apiKey = document.getElementById("apiKeyInput").value;
+                var maxTokens = document.getElementById("maxTokensInput").value;
+
+                // Save values to local storage.
+                localStorage.setItem("API_KEY", apiKey);
+                localStorage.setItem("MAX_TOKENS", maxTokens);
+                // Show a success message.
+                showSavedIndicator();
+            });
+
+            function showSavedIndicator() {
+                // Get the save button.
+                var saveButton = document.getElementById("saveSettingsBtn");
+
+                // Change the text to indicate that the settings have been saved.
+                saveButton.textContent = "Settings Saved!";
+
+                // Change it back after few seconds.
+                setTimeout(function () {
+                    saveButton.textContent = "Save All Settings";
+                }, 3000);
+            }
         });
         // window.onload = function () { setTimeout(function () { document.body.style.opacity = "100"; }, 500); };
+    </script>
+    <script>
+        window.onload = function () { setTimeout(function () { document.body.style.opacity = "100"; }, 500); };
     </script>
 </body>
 

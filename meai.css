@@ -346,3 +346,33 @@ body {
 .prompt-history-item:hover .fav-button {
     visibility:visible;
 }
+
+#settings-window{
+    position: absolute;
+    width: 70%;
+    margin: 50px auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    top: 50px;
+    /* Adjust the top position as needed */
+    left: 50%;
+    /* Center horizontally */
+    transform: translateX(-50%);
+    /* Adjust the width as needed */
+    background-color: #212529;
+    /* Light gray background */
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: none;
+    font-family: Arial, sans-serif;
+    z-index: 1000;
+}
+
+#settingsCloseBtn {
+    color: white;
+}
+
+.card-header {
+    border-bottom: 1px solid rgba(155, 155, 155, 0.7) !important;
+}
