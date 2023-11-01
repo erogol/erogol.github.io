@@ -149,6 +149,14 @@ def greet(name):
                                 placeholder="Enter the max number of tokens here">
                         </div>
                     </div>
+                    <div class="mb-3">
+                        <label for="apiTimeoutInput" class="form-label"
+                            title="Seconds to timeout hanging API call.">Request Timeout</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="apiTimeoutInput"
+                                title="Seconds to timeout hanging API call." placeholder="Enter secs to timeout here.">
+                        </div>
+                    </div>
                     <!-- single save button -->
                     <button class="btn btn-outline-light" type="button" id="saveSettingsBtn">Save All Settings</button>
                 </div>
@@ -159,16 +167,16 @@ def greet(name):
 
             <div id="help-window">
                 <button type="button" class="btn-close btn-close-white closeButton" aria-label="Close"
-                        id="helpCloseBtn"></button>
+                    id="helpCloseBtn"></button>
                 <!-- <div class="closeButton" id="helpCloseBtn">X</div> -->
-                <h2>🤖 ME-AI</h2>
+                <h1>🤖 ME-AI</h1>
                 <p>
                     aka Markdown editor with AI.<br><br>
                 </p>
-                <h2>Usage</h2>
+                <h1>Usage</h1>
                 <p>
                 <div>
-                    <p>To access the AI options, simply right-click anywhere in the editor.</p>
+                    <p>To access the AI options, simply right-click anywhere in the editor.</p><br>
 
                     <h3>AI Command Menu</h3>
                     <p>The menu will then appear, providing you with a range of choices:</p>
@@ -178,14 +186,14 @@ def greet(name):
                         <li>Make It Fluent: Makes the selected text fluent.</li>
                         <li>Paraphrase: Paraphrases the selected text.</li>
                         <li>Correct Spelling: Corrects the spelling of the selected text.</li>
-                    </ul>
+                    </ul><br>
 
                     <h3>Ask AI to do anything</h3>
                     <ol>
                         <li>(Optional) Select a text.</li>
                         <li>Press <strong>Ctrl+Shift+P</strong></li>
                         <li>Type your command and press Enter.</li>
-                    </ol>
+                    </ol><br>
 
                     <h3>Toolbar</h3>
                     <p>The editor is equipped with a convenient toolbar that becomes visible when you hover your
@@ -201,9 +209,9 @@ def greet(name):
                         <li>Download: Download the text as a .md file.</li>
                         <li>Upload: Upload a .md file to the editor.</li>
                         <li>Help: Show this help dialog.</li>
-                    </ul>
+                    </ul><br><br>
 
-                    <h2>Notes</h2>
+                    <h1>Notes</h1>
                     <ul>
                         <li>ME-AI does not retain any of your data including your API key.</li>
                         <li>ME_AI requires you to enter an OpenAI API key to use the AI functions.</li>
@@ -212,11 +220,20 @@ def greet(name):
                         <li>The editor automatically saves the current content to local storage every minute,
                             allowing
                             you to conveniently resume your work later.</li>
-                    </ul>
+                    </ul><br><br>
+                    <!-- Do not show me again checkbox -->
+
+                    <!-- Do not show me again checkbox -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="doNotShowAgainCheckbox">
+                        <label class="form-check-label" for="doNotShowAgainCheckbox">
+                            Do not show me this at start.
+                        </label>
+                    </div>
                 </div>
-                </p>
             </div>
         </div>
+        </p>
     </div>
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsdiff/5.0.0/diff.min.js"></script>
@@ -320,6 +337,7 @@ def greet(name):
             var helpAction = function (editor) {
                 // Show a help dialog
                 helpWindow.style.display = "block";
+                document.getElementById("doNotShowAgainCheckbox").checked = localStorage.getItem("doNotShowAgain");
                 helpWindowCloseBtn = document.createElement("div");
             };
 
@@ -441,8 +459,15 @@ def greet(name):
             // Close the help window when the close button is clicked
             helpWindowCloseBtn.addEventListener("click", function () {
                 helpWindow.style.display = "none";
+                localStorage.setItem("doNotShowAgain", document.getElementById("doNotShowAgainCheckbox").checked);
                 helpWindow.removeChild(helpWindowCloseBtn);
             });
+
+            // Show the help window at start
+            if (localStorage.getItem("doNotShowAgain") !== "true") {
+                document.getElementById("doNotShowAgainCheckbox").checked = !localStorage.getItem("doNotShowAgain");
+                helpWindow.style.display = "block";
+            }
 
             /**************************************************************
              * UTILS
@@ -986,26 +1011,41 @@ def greet(name):
             // ***********************************************
             // *************** SETTINGS WINDOW ***************
             // ***********************************************
-            let API_KEY = window.localStorage.getItem('API_KEY');
-            let MAX_TOKENS = window.localStorage.getItem('MAX_TOKENS');
 
+            // Populate settings fields with values from local storage
+            let API_KEY = localStorage.getItem('API_KEY') || null;
+            let MAX_TOKENS = localStorage.getItem('MAX_TOKENS') || 100;
+            let API_TIMEOUT = localStorage.getItem('API_TIMEOUT') * 1000 || 60000;
+
+            document.getElementById("apiKeyInput").value = "";
             if (API_KEY) {
                 // Load API Key
-                document.getElementById("apiKeyInput").value = API_KEY;
+                if (API_KEY != null && API_KEY != undefined && API_KEY != "" && API_KEY != "null") {
+                    console.log(API_KEY);
+                    document.getElementById("apiKeyInput").value = API_KEY;
+                }
+                console.log(document.getElementById("apiKeyInput").value == "null")
             }
             if (MAX_TOKENS) {
                 // Load Max Tokens
                 document.getElementById("maxTokensInput").value = MAX_TOKENS;
+            }
+            if (API_TIMEOUT) {
+                // Load API Timeout
+                document.getElementById("apiTimeoutInput").value = API_TIMEOUT / 1000;
             }
 
             document.getElementById("saveSettingsBtn").addEventListener("click", function () {
                 // Get values from input fields.
                 var apiKey = document.getElementById("apiKeyInput").value;
                 var maxTokens = document.getElementById("maxTokensInput").value;
+                var apiTimeout = document.getElementById("apiTimeoutInput").value * 1000;
 
                 // Save values to local storage.
                 localStorage.setItem("API_KEY", apiKey);
                 localStorage.setItem("MAX_TOKENS", maxTokens);
+                localStorage.setItem("API_TIMEOUT", apiTimeout);
+
                 // Show a success message.
                 showSavedIndicator();
             });

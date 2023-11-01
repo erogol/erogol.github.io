@@ -1,9 +1,10 @@
 const API_URL = "https://api.openai.com/v1/chat/completions";
 var API_KEY = localStorage.getItem("API_KEY");
 var MAX_TOKENS = localStorage.getItem("MAX_TOKENS");
-console.log("API_KEY: " + API_KEY);
+var API_TIMEOUT = 20000; // 20 seconds
+var SHOW_HELP_ON_START = localStorage.getItem("SHOW_HELP_ON_START");
 
-function set_api_key() {
+function set_api_settings() {
     if (API_KEY === "null" || API_KEY === null || API_KEY === "") {
         API_KEY = prompt("Enter your OpenAI API key to use 🤖.")
         localStorage.setItem("API_KEY", API_KEY);
@@ -13,6 +14,22 @@ function set_api_key() {
         MAX_TOKENS = 200
         localStorage.setItem("MAX_TOKENS", MAX_TOKENS);
     }
+
+    if (API_TIMEOUT === "null" || API_TIMEOUT === null || API_TIMEOUT === "") {
+        API_TIMEOUT = 20000
+        localStorage.setItem("API_TIMEOUT", API_TIMEOUT);
+    }
+}
+
+function get_api_settings() {
+    API_KEY = localStorage.getItem("API_KEY");
+    MAX_TOKENS = localStorage.getItem("MAX_TOKENS");
+    API_TIMEOUT = localStorage.getItem("API_TIMEOUT");
+    SHOW_HELP_ON_START = localStorage.getItem("SHOW_HELP_ON_START");
+    console.log("API_KEY: " + API_KEY);
+    console.log("MAX_TOKENS: " + MAX_TOKENS);
+    console.log("API_TIMEOUT: " + API_TIMEOUT);
+    return { "API_KEY": API_KEY, "MAX_TOKENS": MAX_TOKENS, "API_TIMEOUT": API_TIMEOUT };
 }
 
 const instruction1 = `You are a writing assistant. You need to complete the following text and only return the part you add. Follow the rules below.
@@ -67,31 +84,31 @@ const custom_prompt_with_input_instruction = `You are an AI writing assistant. Y
 `;
 
 
-async function run_openai(instruction, input, max_tokens) {
+async function run_openai(instruction, input) {
     try {
-        set_api_key();
+        set_api_settings();
+        let api_settings = get_api_settings();
         console.log("Run OpenAI...")
         console.log("Instruction: " + instruction);
         console.log("Input: " + input);
-        console.log("Max Tokens: " + max_tokens);
         // Create a new AbortController instance
         const controller = new AbortController();
         // Set a timeout of 10 seconds
         const timeout = setTimeout(() => {
             controller.abort();
             console.log("Request timed out.");
-        }, 10000);
+        }, api_settings["API_TIMEOUT"]);
         // Fetch the response from the OpenAI API with the signal from AbortController
         const response = await fetch(API_URL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${API_KEY}`,
+                Authorization: `Bearer ${api_settings["API_KEY"]}`,
             },
             body: JSON.stringify({
                 model: "gpt-4",
                 messages: [{ "role": "system", "content": instruction }, { role: "user", content: input }],
-                max_tokens: parseInt(max_tokens),
+                max_tokens: parseInt(api_settings["MAX_TOKENS"]),
             }),
             signal: controller.signal,
         });
@@ -107,31 +124,32 @@ async function run_openai(instruction, input, max_tokens) {
 }
 
 async function auto_complete(input) {
-    return await run_openai(instruction1, input, MAX_TOKENS);
+    return await run_openai(instruction1, input);
 }
 
 async function make_fluent(input) {
-    return await run_openai(instruction2, input, MAX_TOKENS);
+    return await run_openai(instruction2, input);
 }
 
 function paraphrase(input) {
-    return run_openai(instruction3, input, MAX_TOKENS);
+    return run_openai(instruction3, input);
 }
 
 function correctSpelling(input) {
-    return run_openai(instruction4, input, MAX_TOKENS);
+    return run_openai(instruction4, input);
 }
 
 function userInstruction(instruction, input) {
     if (input == "" || input == null) {
         instruction = "\n--\n" + instruction;
-        return run_openai(custom_prompt_instruction, instruction, MAX_TOKENS);
+        return run_openai(custom_prompt_instruction, instruction);
     }
     instruction = "\n--\n" + instruction + "\n--\n" + input;
-    return run_openai(custom_prompt_with_input_instruction, instruction, MAX_TOKENS);
+    return run_openai(custom_prompt_with_input_instruction, instruction);
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    set_api_key();
+    set_api_settings();
+    get_api_settings();
     console.log("API_KEY: " + API_KEY);
 });
