@@ -1,6 +1,6 @@
 ---
 layout: post
-title: XTTSv2 notes.
+title: XTTS v2 Notes
 description: XTTSv2 technical notes.
 summary: XTTSv2 technical notes.
 tags: machine-learning TTS coqui.ai open-source XTTS
