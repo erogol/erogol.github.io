@@ -355,3 +355,15 @@ The Conformer is a variant designed for speech recognition. While the Transforme
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Efficient Streaming Language Models with Attention Sinks <br><br>- Softmax in attention forces sum to 1 <br>- Thus it always attends first tokens <br>- Add learnable start tokens (sinks) <br>- Sliding window context with sinks <br>- Stable, fast, scalable inference! <a href="https://t.co/xNG4asnxWc">https://t.co/xNG4asnxWc</a></p>&mdash; erogol 🐸💬 (@erogol) <a href="https://twitter.com/erogol/status/1708811519511744899?ref_src=twsrc%5Etfw">October 2, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 This looks similar to Longnet, but they keep a set of learnable tokens - sinks - at the beginning of the generated sequence, observing that it improves stability and performance even if you window the attention computation.
+
+### Simplifying Transformer Blocks
+
+📎 [Paper](https://arxiv.org/pdf/2311.01906.pdf)
+
+<figure>
+  <img src="https://media.discordapp.net/attachments/1158141030080716891/1174358243426979920/image.png?ex=65674d57&is=6554d857&hm=4c029263a3d055efcb5420b09cd8a957837c82ae3399c50fecce5e7dbce45cd3&=&width=2254&height=1342" alt="image">
+</figure>
+
+Proposed model removes attention sub-block skip connection, value and projection parameters, MLP skip connection and normalization layers. They report 15% faster training and 15% fewer parameters with no loss in performance.
+One caveat is that they only experimented with relatively smaller models (200-300m parameters) and it is not clear if this approach scales to larger models. Also, experiments are done in a limited number of tasks. However,
+it is easy to implement and worth trying at least for the model scales and tasks mentioned in the paper.
