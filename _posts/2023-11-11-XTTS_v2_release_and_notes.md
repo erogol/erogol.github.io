@@ -44,8 +44,8 @@ Best :)
 
 ### References and Acknowledgements
 
-XTTSv1: https://erogol.com/2023/09/27/xtts-v1-notes
-VallE: https://arxiv.org/abs/2301.02111
-Tortoise: https://github.com/neonbjb/tortoise-tts
-DALL-E: https://arxiv.org/abs/2102.12092
-Perceiver: https://arxiv.org/abs/2103.03206
+XTTSv1: [https://erogol.com/2023/09/27/xtts-v1-notes](https://erogol.com/2023/09/27/xtts-v1-notes) <br>
+VallE: [https://arxiv.org/abs/2301.02111](https://arxiv.org/abs/2301.02111)<br>
+Tortoise: [https://github.com/neonbjb/tortoise-tts](https://github.com/neonbjb/tortoise-tts)<br>
+DALL-E: [https://arxiv.org/abs/2102.12092](https://arxiv.org/abs/2102.12092)<br>
+Perceiver: [https://arxiv.org/abs/2103.03206](https://arxiv.org/abs/2103.03206)<br>
