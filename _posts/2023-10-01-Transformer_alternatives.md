@@ -359,6 +359,7 @@ This looks similar to Longnet, but they keep a set of learnable tokens - sinks -
 ### Simplifying Transformer Blocks
 
 📎 [Paper](https://arxiv.org/pdf/2311.01906.pdf)
+👨‍💻 [Code](https://github.com/bobby-he/simplified_transformers)
 
 <figure>
   <img src="https://media.discordapp.net/attachments/1158141030080716891/1174358243426979920/image.png?ex=65674d57&is=6554d857&hm=4c029263a3d055efcb5420b09cd8a957837c82ae3399c50fecce5e7dbce45cd3&=&width=2254&height=1342" alt="image">
