@@ -3,7 +3,7 @@ layout: post
 title: Training XTTS for Voice Conversion
 description: Training XTTS for Voice Conversion
 summary: Training XTTS for Voice Conversion
-tags: machine-learning TTS open-source XTTS
+tags: machine-learning voice-conversion open-source XTTS experiment-notes
 minute: 2
 ---
 
