@@ -9,12 +9,13 @@ layout: default
         </button>
     </div>
     <div class="bio">
-	    {{ site.description }}
+        {{ site.description }}
         <!-- <p>
 	    <a href="{{ site.url }}{{ site.baseurl }}/about/">> About me</a>
         </p> -->
         <p>
-            <font size="-5">- <a href="https://www.digitalocean.com/">Digital Ocean</a>, by incompetent engineering, wiped out my 10 years old blog. Save yourself, use something else - </font>
+            <font size="-5">- <a href="https://www.digitalocean.com/">Digital Ocean</a>, by incompetent engineering,
+                wiped out my 10 years old blog. Save yourself, use something else - </font>
         </p>
     </div>
 
@@ -39,21 +40,22 @@ layout: default
 </div>
 
 <p>
-    <a href="{{ site.url }}{{ site.baseurl }}/meai.html"> ⚡️ Try <strong>ME_AI</strong> (Markdown editor with AI)</a>
+    <a href="{{ site.url }}{{ site.baseurl }}/meai.html"> ⚡️ Try <strong>ME_AI</strong> (fully local simple Markdown
+        Editor with AI)</a>
 </p>
 <br\>
-<p>
-    <a href="https://erogol.substack.com/"> 🔗 See My Substack </a>
-</p>
+    <p>
+        <a href="https://erogol.substack.com/"> 🔗 See My Substack </a>
+    </p>
 
-<section class="posts" id="Blog">
-    <h2>BLOG</h2>
-    <ul>
-        {% for post in site.posts %}
-        <li>
-		<a href="{{ site.url }}{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %d, %Y" }}</time>
-        </li>
-        {% endfor %}
-    </ul>
-</section>
+    <section class="posts" id="Blog">
+        <h2>BLOG</h2>
+        <ul>
+            {% for post in site.posts %}
+            <li>
+                <a href="{{ site.url }}{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+                <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %d, %Y" }}</time>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
