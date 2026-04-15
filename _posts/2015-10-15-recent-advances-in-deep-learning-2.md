@@ -1,0 +1,28 @@
+---
+layout: post
+title: "Recent Advances in Deep Learning #2"
+description: "1"
+tags: deep learning machine learning neural network
+minute: 4
+---
+
+> *This post was originally published on erogol.com (hosted on DigitalOcean) and recovered from the [Wayback Machine](https://web.archive.org) after the original server was lost. Some formatting or images may differ from the original.*
+
+1. **Teacher - Student paradigm:**
+   * The idea is flickered by (up to my best knowledge) [Caruana et. al. 2006](https://www.cs.cornell.edu/~caruana/compression.kdd06.pdf). Basically, the idea is to train an ensemble of networks and use their outputs on a held-out set to distill the knowledge to a smaller network. Then this idea is recently hashed by G. [Hinton's work](http://arxiv.org/abs/1503.02531)which trains larger network then use this network output with a mixture of the original train data to train a smaller network. One important trick is to using higher temperature values on softmax layer of the teacher network so class probabilities are smoothly distributed over classes . Student networks is then able to learn class relations induced by the teacher network beside the true classes of the instances as it is suppose to. Eventually, we are able to compress the knowledge of the teacher net by  a smaller network with less number of parameters and faster execution time. [Bengio](http://arxiv.org/abs/1412.6550) has also one similar work called Fitnets which is the beneficiary of the same idea from a wider aspect. They do not only use the outputs of the teacher net, but they carry representation power of hidden layers  of the teacher to the student net by a regression loss that approximates the teacher hidden layer weights from the student weights.
+2. **Bayesian Breezes :**
+   * We are finally able to see some Bayesian arguments on Deep Models. One of the prevailing works belongs to [Maxwelling](http://arxiv.org/abs/1506.04416) "Bayesian Dark Knowledge". Again we have the previous idea but with a very simple trick in mind. Basically, we introduces a Gaussian noise, which is scaled by the decaying learning rate, to the gradient signals. This noise indices a MCMC dynamics to the network and it implicitly learns ensemble networks. The teacher trained in that fashion, is then used to train student nets with a similar approach proposed by G. Hinton. I won't go into mathematical details here. I guess this is one of the rare Bayesian approaches which is close to be applicable for real-time problems with its a simple trick which is enough to do all the Bayesian magic.
+   * Variational Auto Encoder is not a  new work but it recently draw my attention. The difference between VAE and conventional AE is, given a probability distribution, VAE learns the best possible representation that is parametrized by defined distribution. Let's say we want to fit gaussian distribution to the data. Then, It is able to learn mean and standard deviation of the multiple gaussian functions ( corressponding VAE latent units) with backpropagation with a simple parametrization trick. Eventually, you obtain multiple gaussians with different mean and std on the latent units of VAE and you can sample new instances out of these. You can learn more from this great [tutorial](http://vdumoulin.github.io/articles/vae-demo/).
+3. **Recurrent Models for Visual Recognition:**
+   * [ReNet](http://arxiv.org/abs/1505.00393) is a paper from Montreal group. They explain an alternative approach to convolutional neural networks in order to learn spatial structures over visual data. Their idea relies on recurrent neural network which scans the image in a sequence of horizontal and then vertical direction. At the end, RNN is able to learn the structure over the whole image (or image patch). Although, their results are not better than state of art, spotting an new alternative to old fashion convolution is exciting effort.
+4. **Model Accelerator and Compression Methods:**
+   * We already talked about dark knowledge approach that is able to compress larger modes into a small ones. Beside, there are some structural approaches so as to compress larger models. One instance to these works is "[Learning both Weights and Connections for Efficient Neural Networks](http://arxiv.org/abs/1506.02626)". You can reach my  personal note relating to this work by this [link](https://www.evernote.com/shard/s146/sh/8677cfd3-b783-4d62-ab9e-20eb1e99fbb9/b8531e77aa3ec7f4b3410e0c37e33c15).
+   * ["Neural Networks with Few Multiplication"](http://arxiv.org/pdf/1510.03009v1.pdf) by Bengio's team introduces a yet another algorithmic solution for faster and less memory bloating training.
+
+[Share](https://www.addtoany.com/share)
+
+### Related posts:
+
+2. [Microsoft Research introduced a new NN model that beats Google and the others](http://www.erogol.com/microsot-research-introduced-new-nn-model-beats-google-others/ "Microsoft Research introduced a new NN model that beats Google and the others")
+3. [Stochastic Gradient formula for different learning algorithms](http://www.erogol.com/stochastic-gradient-formula-for-different-learning-algorithms/ "Stochastic Gradient formula for different learning algorithms")
+4. [Paper review: CONVERGENT LEARNING: DO DIFFERENT NEURAL NETWORKS LEARN THE SAME REPRESENTATIONS?](http://www.erogol.com/paper-review-convergent-learning-different-neural-networks-learn-representations/ "Paper review: CONVERGENT LEARNING: DO DIFFERENT NEURAL NETWORKS LEARN THE SAME REPRESENTATIONS?")
