@@ -1,12 +1,7 @@
 ---
 layout: post
 title: "How to keep your forked project updated with the main project ?"
-description: "python
-
-
- Add the remote, call it "upstream":
-
-git remote add upstream https://github"
+description: "How to keep your forked project updated with the main project"
 tags: cheat sheet github
 minute: 1
 ---

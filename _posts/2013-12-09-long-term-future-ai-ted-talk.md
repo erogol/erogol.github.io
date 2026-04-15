@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The Long Term Future of AI (TED talk)"
-description: "Daniel Dewey talks about the phenomena called "AI explosion" in which the forthcoming status of AI r"
+description: "Daniel Dewey talks about the phenomena called AI explosion"
 tags: ai talk ted video
 minute: 1
 ---

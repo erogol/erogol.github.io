@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Simple hack to connect an authentication needed internet. (like in Starbucks)"
-description: "For the notion of tradition I need to say that "all the information for educational purpose""
+description: "For the notion of tradition I need to say that all the information for educational purpose"
 tags: hack linux network
 minute: 3
 ---

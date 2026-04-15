@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "More Firefox Add-ons for Secure Internet"
-description: "I posted little while before " Firefox add-ons for your secure internet"(http://erogol"
+description: "I posted little while before Firefox add-ons for your secure internet"
 tags: add-on computer firefox hacking internet
 minute: 1
 ---
