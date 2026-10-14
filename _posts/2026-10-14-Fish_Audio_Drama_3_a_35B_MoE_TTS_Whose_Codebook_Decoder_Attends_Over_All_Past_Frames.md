@@ -6,6 +6,10 @@ tags: machine-learning tts speech-synthesis moe model-check fish-audio
 minute: 9
 ---
 
+<a href="/assets/images/fish-drama-3-architecture.png"><img src="/assets/images/fish-drama-3-architecture.png" width="100%" alt="Fish Audio Drama 3 architecture" /></a>
+
+*Drama 3 architecture. Shapes and parameter counts from config.json and the safetensors headers; flow from [arXiv 2610.18010](https://arxiv.org/abs/2610.18010).*
+
 *A hybrid Gated DeltaNet + MoE backbone, a 13-layer codebook-MTP audio decoder, and RL with one learned preference reward. Open weights, about 3B active in the backbone.*
 
 Fish Audio released Drama 3 on 13 October 2026 with weights, a technical report ([arXiv 2610.18010](https://arxiv.org/abs/2610.18010)) and launch-day serving in [SGLang-Omni](https://sgl-project.github.io/sglang-omni/cookbook/fishaudio_drama3.html). It is a 35.9B-parameter speech model initialized from Qwen3.5-35B-A3B, with about 3B active per token in the backbone. Fish Audio calls it the largest open-weight speech generation model by total parameters. The new part is the audio decoder. Each acoustic codebook gets its own full-width layer that attends causally over the whole sequence, reference audio included. With 7.8x the parameters of Fish Audio S2 (about 4.6B), it decodes one stream at 271 frames/s on an H200, against 177 for S2 in the same test.
@@ -43,10 +47,6 @@ Parameter counts and backbone shapes come from config.json and the safetensors h
 - **RL.** One learned human-preference reward. No ASR, speaker-similarity or quality rewards.
 
 ## Architecture
-
-<a href="/assets/images/fish-drama-3-architecture.png"><img src="/assets/images/fish-drama-3-architecture.png" width="100%" alt="Fish Audio Drama 3 architecture" /></a>
-
-*Drama 3 architecture. Shapes and parameter counts from config.json and the safetensors headers; flow from [arXiv 2610.18010](https://arxiv.org/abs/2610.18010).*
 
 ### Codec and backbone
 
