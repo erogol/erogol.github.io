@@ -44,6 +44,10 @@ Parameter counts and backbone shapes come from config.json and the safetensors h
 
 ## Architecture
 
+<a href="/assets/images/fish-drama-3-architecture.png"><img src="/assets/images/fish-drama-3-architecture.png" width="100%" alt="Fish Audio Drama 3 architecture" /></a>
+
+*Drama 3 architecture. Shapes and parameter counts from config.json and the safetensors headers; flow from [arXiv 2610.18010](https://arxiv.org/abs/2610.18010).*
+
 ### Codec and backbone
 
 The S2 tokenizer is reused unchanged. It is built on the Descript Audio Codec and is fully causal, so encode and decode both stream. Code 0 is semantic, codes 1 to 9 are residual VQ levels. One frame is one sequence position. There is no audio encoder, so reference audio enters only as codec tokens.
