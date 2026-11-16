@@ -3770,6 +3770,296 @@
      }
     }
    }
+  },
+  "nanoedge": {
+   "1": {
+    "model": "nanoedge",
+    "threads": 1,
+    "sample_rate": 24000,
+    "info": {
+     "voice": "af_heart",
+     "runtime": "kokoro 0.9.4 KPipeline + nano-edge decoder (PyTorch fp32), per sentence"
+    },
+    "env_threads": {
+     "OMP_NUM_THREADS": "1",
+     "OPENBLAS_NUM_THREADS": "1",
+     "MKL_NUM_THREADS": "1"
+    },
+    "load_s": 7.171505492180586,
+    "rss_start_mb": 28.4140625,
+    "rss_after_load_mb": 796.82421875,
+    "peak_rss_mb": 1255.41015625,
+    "rtf_overall": 0.09907956256181408,
+    "speed_x": 10.092898819331351,
+    "ttfa_median_s": 0.5499727576971054,
+    "ttfa_short_s": 0.2587979957461357,
+    "sentences": {
+     "short": {
+      "text": "Hi, I'm ready when you are.",
+      "ttfa_s": 0.2587979957461357,
+      "total_s": 0.2588142976164818,
+      "audio_s": 2.05,
+      "rtf": 0.1262508768860887,
+      "runs": [
+       {
+        "ttfa_s": 0.24932122975587845,
+        "total_s": 0.24933530017733574,
+        "audio_s": 2.05
+       },
+       {
+        "ttfa_s": 0.27191953733563423,
+        "total_s": 0.2719387598335743,
+        "audio_s": 2.05
+       },
+       {
+        "ttfa_s": 0.2587979957461357,
+        "total_s": 0.2588142976164818,
+        "audio_s": 2.05
+       }
+      ]
+     },
+     "medium": {
+      "text": "The weather in Munich looks clear today, so it is a good afternoon for a long walk with the dog.",
+      "ttfa_s": 0.6101991385221481,
+      "total_s": 0.6102221943438053,
+      "audio_s": 5.8,
+      "rtf": 0.10521072316272506,
+      "runs": [
+       {
+        "ttfa_s": 0.6101991385221481,
+        "total_s": 0.6102221943438053,
+        "audio_s": 5.8
+       },
+       {
+        "ttfa_s": 0.5758400857448578,
+        "total_s": 0.5758639834821224,
+        "audio_s": 5.8
+       },
+       {
+        "ttfa_s": 0.6386836469173431,
+        "total_s": 0.638714574277401,
+        "audio_s": 5.8
+       }
+      ]
+     },
+     "long": {
+      "text": "Before we start the review, let me summarize the main points from yesterday's meeting. The team agreed to move the release by one week, because the new speech model still needs more testing on slower devices. After that, we will collect feedback from early users and decide which features stay in the final version.",
+      "ttfa_s": 0.5409182012081146,
+      "total_s": 1.8692517653107643,
+      "audio_s": 19.525,
+      "rtf": 0.09573632600823377,
+      "runs": [
+       {
+        "ttfa_s": 0.5409182012081146,
+        "total_s": 1.8692517653107643,
+        "audio_s": 19.525
+       },
+       {
+        "ttfa_s": 0.558604296296835,
+        "total_s": 1.839911114424467,
+        "audio_s": 19.525
+       },
+       {
+        "ttfa_s": 0.5264625288546085,
+        "total_s": 1.8851776346564293,
+        "audio_s": 19.525
+       }
+      ]
+     },
+     "numbers": {
+      "text": "Your appointment is on March 14th at 3:45 p.m., and the total cost is $1,280.50, including 19% VAT.",
+      "ttfa_s": 1.0910053960978985,
+      "total_s": 1.091031577438116,
+      "audio_s": 11.575,
+      "rtf": 0.09425758768363854,
+      "runs": [
+       {
+        "ttfa_s": 1.0910053960978985,
+        "total_s": 1.091031577438116,
+        "audio_s": 11.575
+       },
+       {
+        "ttfa_s": 1.0618925467133522,
+        "total_s": 1.0619162768125534,
+        "audio_s": 11.575
+       },
+       {
+        "ttfa_s": 1.1255201809108257,
+        "total_s": 1.1255491748452187,
+        "audio_s": 11.575
+       }
+      ]
+     },
+     "question": {
+      "text": "Do you want me to book the table for eight people, or should I wait until you check with your friends?",
+      "ttfa_s": 0.5499727576971054,
+      "total_s": 0.5499968305230141,
+      "audio_s": 5.25,
+      "rtf": 0.10476130105200268,
+      "runs": [
+       {
+        "ttfa_s": 0.589124970138073,
+        "total_s": 0.5891473218798637,
+        "audio_s": 5.25
+       },
+       {
+        "ttfa_s": 0.5499727576971054,
+        "total_s": 0.5499968305230141,
+        "audio_s": 5.25
+       },
+       {
+        "ttfa_s": 0.5287610180675983,
+        "total_s": 0.5287796929478645,
+        "audio_s": 5.25
+       }
+      ]
+     }
+    }
+   },
+   "4": {
+    "model": "nanoedge",
+    "threads": 4,
+    "sample_rate": 24000,
+    "info": {
+     "voice": "af_heart",
+     "runtime": "kokoro 0.9.4 KPipeline + nano-edge decoder (PyTorch fp32), per sentence"
+    },
+    "env_threads": {
+     "OMP_NUM_THREADS": "4",
+     "OPENBLAS_NUM_THREADS": "4",
+     "MKL_NUM_THREADS": "4"
+    },
+    "load_s": 7.0790193118155,
+    "rss_start_mb": 28.37890625,
+    "rss_after_load_mb": 796.87890625,
+    "peak_rss_mb": 1255.48828125,
+    "rtf_overall": 0.044330007468278594,
+    "speed_x": 22.558083273854038,
+    "ttfa_median_s": 0.2443789690732956,
+    "ttfa_short_s": 0.12389574199914932,
+    "sentences": {
+     "short": {
+      "text": "Hi, I'm ready when you are.",
+      "ttfa_s": 0.12389574199914932,
+      "total_s": 0.12391090020537376,
+      "audio_s": 2.05,
+      "rtf": 0.060444341563596966,
+      "runs": [
+       {
+        "ttfa_s": 0.12389574199914932,
+        "total_s": 0.12391090020537376,
+        "audio_s": 2.05
+       },
+       {
+        "ttfa_s": 0.11838587000966072,
+        "total_s": 0.11840423196554184,
+        "audio_s": 2.05
+       },
+       {
+        "ttfa_s": 0.127186618745327,
+        "total_s": 0.12720706686377525,
+        "audio_s": 2.05
+       }
+      ]
+     },
+     "medium": {
+      "text": "The weather in Munich looks clear today, so it is a good afternoon for a long walk with the dog.",
+      "ttfa_s": 0.2595832161605358,
+      "total_s": 0.25960535556077957,
+      "audio_s": 5.8,
+      "rtf": 0.04475954406220337,
+      "runs": [
+       {
+        "ttfa_s": 0.28957973048090935,
+        "total_s": 0.2896115332841873,
+        "audio_s": 5.8
+       },
+       {
+        "ttfa_s": 0.2595832161605358,
+        "total_s": 0.25960535556077957,
+        "audio_s": 5.8
+       },
+       {
+        "ttfa_s": 0.25007255002856255,
+        "total_s": 0.2500936686992645,
+        "audio_s": 5.8
+       }
+      ]
+     },
+     "long": {
+      "text": "Before we start the review, let me summarize the main points from yesterday's meeting. The team agreed to move the release by one week, because the new speech model still needs more testing on slower devices. After that, we will collect feedback from early users and decide which features stay in the final version.",
+      "ttfa_s": 0.2443789690732956,
+      "total_s": 0.8726498447358608,
+      "audio_s": 19.525,
+      "rtf": 0.04469397412219518,
+      "runs": [
+       {
+        "ttfa_s": 0.23015658557415009,
+        "total_s": 0.8923796117305756,
+        "audio_s": 19.525
+       },
+       {
+        "ttfa_s": 0.2443789690732956,
+        "total_s": 0.8201257437467575,
+        "audio_s": 19.525
+       },
+       {
+        "ttfa_s": 0.24806024879217148,
+        "total_s": 0.8726498447358608,
+        "audio_s": 19.525
+       }
+      ]
+     },
+     "numbers": {
+      "text": "Your appointment is on March 14th at 3:45 p.m., and the total cost is $1,280.50, including 19% VAT.",
+      "ttfa_s": 0.4642481543123722,
+      "total_s": 0.46427347138524055,
+      "audio_s": 11.575,
+      "rtf": 0.040110019126154695,
+      "runs": [
+       {
+        "ttfa_s": 0.4308723397552967,
+        "total_s": 0.43089813366532326,
+        "audio_s": 11.575
+       },
+       {
+        "ttfa_s": 0.4642481543123722,
+        "total_s": 0.46427347138524055,
+        "audio_s": 11.575
+       },
+       {
+        "ttfa_s": 0.48041748255491257,
+        "total_s": 0.48044055700302124,
+        "audio_s": 11.575
+       }
+      ]
+     },
+     "question": {
+      "text": "Do you want me to book the table for eight people, or should I wait until you check with your friends?",
+      "ttfa_s": 0.2389185093343258,
+      "total_s": 0.23894675821065903,
+      "audio_s": 5.25,
+      "rtf": 0.04551366823060172,
+      "runs": [
+       {
+        "ttfa_s": 0.2389185093343258,
+        "total_s": 0.23894675821065903,
+        "audio_s": 5.25
+       },
+       {
+        "ttfa_s": 0.2337729148566723,
+        "total_s": 0.23379400372505188,
+        "audio_s": 5.25
+       },
+       {
+        "ttfa_s": 0.2528555542230606,
+        "total_s": 0.2528831325471401,
+        "audio_s": 5.25
+       }
+      ]
+     }
+    }
+   }
   }
  }
 }

@@ -323,5 +323,30 @@
     "wer": 0.0
    }
   }
+ },
+ "nanoedge": {
+  "wer": 0.0,
+  "sentences": {
+   "short": {
+    "hyp": "Hi, I'm ready when you are.",
+    "wer": 0.0
+   },
+   "medium": {
+    "hyp": "The weather in Munich looks clear today, so it is a good afternoon for a long walk with the dog.",
+    "wer": 0.0
+   },
+   "long": {
+    "hyp": "Before we start the review, let me summarize the main points from yesterday's meeting. The team agreed to move the release by one week, because the new speech model still needs more testing on slower devices. After that, we will collect feedback from early users and decide which features stay in the final version.",
+    "wer": 0.0
+   },
+   "numbers": {
+    "hyp": "Your appointment is on March 14th at 3, 45 p.m., and the total cost is $1,280.50, including 19% VAT.",
+    "wer": 0.0
+   },
+   "question": {
+    "hyp": "Do you want me to book the table for eight people, or should I wait until you check with your friends?",
+    "wer": 0.0
+   }
+  }
  }
 }
