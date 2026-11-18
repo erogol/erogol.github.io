@@ -1,0 +1,211 @@
+{
+ "pocket": {
+  "utmos": 4.4039,
+  "sentences": {
+   "short": 4.4042,
+   "medium": 4.3734,
+   "long": 4.446,
+   "numbers": 4.4521,
+   "question": 4.3437
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ },
+ "phonon": {
+  "utmos": 4.4296,
+  "sentences": {
+   "short": 4.4111,
+   "medium": 4.4866,
+   "long": 4.4124,
+   "numbers": 4.4296,
+   "question": 4.4083
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ },
+ "linnet": {
+  "utmos": 4.0701,
+  "sentences": {
+   "short": 2.9321,
+   "medium": 4.4534,
+   "long": 4.2124,
+   "numbers": 4.4397,
+   "question": 4.3131
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ },
+ "machboom": {
+  "utmos": 4.2755,
+  "sentences": {
+   "short": 4.0295,
+   "medium": 4.3358,
+   "long": 4.3528,
+   "numbers": 4.3882,
+   "question": 4.2712
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ },
+ "silencio": {
+  "utmos": 3.9324,
+  "sentences": {
+   "short": 3.5104,
+   "medium": 4.3408,
+   "long": 4.0655,
+   "numbers": 4.1156,
+   "question": 3.6299
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ },
+ "paradee": {
+  "utmos": 4.3947,
+  "sentences": {
+   "short": 4.2621,
+   "medium": 4.4821,
+   "long": 4.3882,
+   "numbers": 4.4476,
+   "question": 4.3937
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ },
+ "woof": {
+  "utmos": 4.4669,
+  "sentences": {
+   "short": 4.3957,
+   "medium": 4.4927,
+   "long": 4.5138,
+   "numbers": 4.5047,
+   "question": 4.4277
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ },
+ "klein": {
+  "utmos": 4.4346,
+  "sentences": {
+   "short": 4.3275,
+   "medium": 4.4758,
+   "long": 4.4139,
+   "numbers": 4.4998,
+   "question": 4.4559
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ },
+ "inflect": {
+  "utmos": 4.4795,
+  "sentences": {
+   "short": 4.4759,
+   "medium": 4.4982,
+   "long": 4.4197,
+   "numbers": 4.5066,
+   "question": 4.4972
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ },
+ "sopro": {
+  "utmos": 4.3131,
+  "sentences": {
+   "short": 4.3742,
+   "medium": 4.2502,
+   "long": 4.399,
+   "numbers": 4.3629,
+   "question": 4.1794
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ },
+ "supra": {
+  "utmos": 3.7721,
+  "sentences": {
+   "short": 3.6956,
+   "medium": 3.8265,
+   "long": 3.7637,
+   "numbers": 3.6711,
+   "question": 3.9038
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ },
+ "silenciob": {
+  "utmos": 4.332,
+  "sentences": {
+   "short": 4.2535,
+   "medium": 4.327,
+   "long": 4.3723,
+   "numbers": 4.384,
+   "question": 4.3231
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ },
+ "tinyvoca": {
+  "utmos": 4.4235,
+  "sentences": {
+   "short": 4.3829,
+   "medium": 4.5128,
+   "long": 4.5139,
+   "numbers": 4.4093,
+   "question": 4.2985
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ },
+ "nanoedge": {
+  "utmos": 4.4992,
+  "sentences": {
+   "short": 4.4535,
+   "medium": 4.517,
+   "long": 4.5184,
+   "numbers": 4.537,
+   "question": 4.4699
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ },
+ "pivo": {
+  "utmos": 4.3647,
+  "sentences": {
+   "short": 4.1703,
+   "medium": 4.4129,
+   "long": 4.466,
+   "numbers": 4.4128,
+   "question": 4.3616
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ },
+ "supertonic": {
+  "utmos": 4.472,
+  "sentences": {
+   "short": 4.342,
+   "medium": 4.5254,
+   "long": 4.4866,
+   "numbers": 4.5078,
+   "question": 4.4982
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ },
+ "inflect3": {
+  "utmos": 4.2029,
+  "sentences": {
+   "short": 3.3966,
+   "medium": 4.3528,
+   "long": 4.4546,
+   "numbers": 4.4557,
+   "question": 4.3546
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ },
+ "woofmira": {
+  "utmos": 3.7802,
+  "sentences": {
+   "short": 2.982,
+   "medium": 4.2223,
+   "long": 3.9401,
+   "numbers": 3.7651,
+   "question": 3.9913
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ },
+ "scylla": {
+  "utmos": 3.7272,
+  "sentences": {
+   "short": 3.5356,
+   "medium": 3.8169,
+   "long": 3.7531,
+   "numbers": 3.9497,
+   "question": 3.5808
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ }
+}
