@@ -207,5 +207,16 @@
    "question": 3.5808
   },
   "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ },
+ "smoller": {
+  "utmos": 3.5283,
+  "sentences": {
+   "short": 3.1725,
+   "medium": 3.5934,
+   "long": 3.5981,
+   "numbers": 3.7829,
+   "question": 3.4947
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
  }
 }
