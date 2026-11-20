@@ -218,5 +218,16 @@
    "question": 3.4947
   },
   "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
+ },
+ "kale": {
+  "utmos": 4.3737,
+  "sentences": {
+   "short": 3.9484,
+   "medium": 4.4912,
+   "long": 4.5042,
+   "numbers": 4.4799,
+   "question": 4.4448
+  },
+  "predictor": "UTMOS22 strong (SpeechMOS v1.2.0 ed25eac, ckpt sha256 38aa51ab79e2)"
  }
 }
